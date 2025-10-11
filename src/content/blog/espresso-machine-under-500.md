@@ -5,7 +5,7 @@ pubDate: 2025-02-15
 updatedDate: 2025-02-15
 heroImage: "/images/blog/espresso-under-500.webp"
 tags: ["under-500", "value", "mid-range", "quality"]
-category: "budget-guides"
+category: "buying-guides"
 featured: true
 draft: true
 ---

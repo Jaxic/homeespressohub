@@ -5,7 +5,7 @@ pubDate: 2025-02-01
 updatedDate: 2025-02-01
 heroImage: "/images/blog/budget-espresso-machines.webp"
 tags: ["budget", "under-300", "affordable", "beginner"]
-category: "budget-guides"
+category: "buying-guides"
 featured: false
 draft: true
 ---

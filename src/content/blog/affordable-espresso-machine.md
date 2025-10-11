@@ -5,7 +5,7 @@ pubDate: 2025-02-25
 updatedDate: 2025-02-25
 heroImage: "/images/blog/affordable-espresso.webp"
 tags: ["affordable", "cheap", "value", "entry-level"]
-category: "budget-guides"
+category: "buying-guides"
 featured: false
 draft: true
 ---
