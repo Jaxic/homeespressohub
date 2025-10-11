@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout 
+  title="Page Not Found - Home Espresso Hub"
+  description="The page you're looking for doesn't exist. Find espresso machine reviews and guides on our homepage."
+>
+  <Header />
+  
+  <main class="container-custom section-padding flex-grow">
+    <div class="text-center max-w-2xl mx-auto">
+      <div class="mb-8">
+        <h1 class="text-6xl font-bold text-espresso-dark mb-4">404</h1>
+        <h2 class="text-3xl font-bold text-espresso-brown mb-6">
+          Oops! This page doesn't exist
+        </h2>
+        <p class="text-xl text-gray-600 mb-8">
+          The page you're looking for might have been moved, deleted, or you may have mistyped the URL.
+        </p>
+      </div>
+
+      <div class="space-y-6">
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/" class="btn-primary">
+            Go to Homepage
+          </a>
+          <a href="/blog" class="btn-secondary">
+            Browse Reviews
+          </a>
+        </div>
+
+        <div class="text-left">
+          <h3 class="text-xl font-bold mb-4">Popular Pages:</h3>
+          <ul class="space-y-2">
+            <li>
+              <a href="/guide/complete-home-espresso-guide" class="text-caramel hover:text-espresso-brown">
+                Complete Home Espresso Guide
+              </a>
+            </li>
+            <li>
+              <a href="/blog/best-espresso-machine-beginners" class="text-caramel hover:text-espresso-brown">
+                Best Espresso Machines for Beginners
+              </a>
+            </li>
+            <li>
+              <a href="/resources" class="text-caramel hover:text-espresso-brown">
+                Helpful Resources & Tools
+              </a>
+            </li>
+            <li>
+              <a href="/about" class="text-caramel hover:text-espresso-brown">
+                About Us
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  main {
+    min-height: calc(100vh - 200px);
+    display: flex;
+    align-items: center;
+  }
+</style>
