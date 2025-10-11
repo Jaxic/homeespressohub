@@ -9,21 +9,16 @@
       "NODE_VERSION": "18.20.8"
     }
   },
-  "functions": {
-    "src/pages/rss.xml.js": {
-      "runtime": "nodejs18.x"
-    }
-  },
-  "routes": [
+  "redirects": [
     {
-      "src": "/rss",
-      "dest": "/rss.xml",
-      "status": 301
+      "source": "/rss",
+      "destination": "/rss.xml",
+      "permanent": true
     },
     {
-      "src": "/feed", 
-      "dest": "/rss.xml",
-      "status": 301
+      "source": "/feed", 
+      "destination": "/rss.xml",
+      "permanent": true
     }
   ],
   "headers": [
