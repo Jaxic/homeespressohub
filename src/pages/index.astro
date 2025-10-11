@@ -22,26 +22,38 @@ const recentPosts = blogPosts
 >
   <Header />
   
-  <!-- Hero Section -->
-  <section class="bg-gradient-to-br from-espresso-dark to-espresso-brown text-white section-padding">
-    <div class="container-custom text-center">
-      <h1 class="text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-6 text-white">
-        Find Your Perfect<br />
-        <span class="text-latte-tan">Home Espresso Machine</span>
-      </h1>
-      <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-gray-200">
-        Honest reviews, practical advice, and beginner-friendly guides to help you make café-quality coffee at home.
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="/guide/complete-home-espresso-guide" class="btn-primary text-lg">
-          Read the Complete Guide
-        </a>
-        <a href="/blog" class="btn-secondary text-lg bg-white hover:bg-latte-tan">
-          Browse Reviews
-        </a>
+  <!-- Hero Scroll Container -->
+  <div class="hero-scroll-container">
+    <!-- Hero Section -->
+    <section class="hero-section text-white relative overflow-hidden">
+      <!-- Full-width background image -->
+      <div class="hero-background-image"></div>
+      <div class="hero-overlay"></div>
+      
+      <!-- Content over the image -->
+      <div class="hero-content-wrapper">
+        <div class="hero-title-section">
+          <h1 class="hero-title">
+            Unleash the power of<br />
+            <span class="hero-title-large">
+              Perfect Espresso
+            </span>
+          </h1>
+          <p class="hero-subtitle">
+            Expert reviews, honest comparisons, and beginner-friendly guides to help you make café-quality coffee at home.
+          </p>
+          <div class="hero-buttons">
+            <a href="/guide/complete-home-espresso-guide" class="btn-primary text-lg">
+              Read the Complete Guide
+            </a>
+            <a href="/blog" class="btn-secondary text-lg bg-white hover:bg-latte-tan">
+              Browse Reviews
+            </a>
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 
   <!-- Featured Machines Section -->
   <section class="section-padding bg-white">
@@ -110,3 +122,168 @@ const recentPosts = blogPosts
 
   <Footer />
 </BaseLayout>
+
+<style>
+  .hero-scroll-container {
+    height: 200vh; /* Double viewport height for scroll effect */
+    position: relative;
+  }
+
+  .hero-section {
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/Hero-Image.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transform: scale(1.1);
+    animation: imageZoomIn 1.5s ease-out 0.2s forwards;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    animation: overlayFadeIn 1s ease-out 0.8s forwards;
+  }
+
+  .hero-content-wrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(50px);
+    animation: fadeInUp 1s ease-out 1s forwards;
+  }
+
+  .hero-title-section {
+    z-index: 10;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .hero-title-large {
+    display: block;
+    font-size: 4rem;
+    font-weight: 800;
+    margin-top: 0.5rem;
+    background: linear-gradient(135deg, #D4A574 0%, #C67C4E 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* Animation keyframes */
+  @keyframes imageZoomIn {
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes overlayFadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Scroll-triggered animations */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-background-image {
+      animation-play-state: running;
+    }
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width: 768px) {
+    .hero-scroll-container {
+      height: 150vh;
+    }
+
+    .hero-content-wrapper {
+      text-align: center;
+      padding: 0 1rem;
+    }
+
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .hero-title-large {
+      font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+    }
+
+    .hero-buttons {
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-background-image {
+      background-position: center right;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title-large {
+      font-size: 2rem;
+    }
+    
+    .hero-buttons a {
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>

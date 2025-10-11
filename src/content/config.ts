@@ -12,6 +12,7 @@ const blogCollection = defineCollection({
     tags: z.array(z.string()).default([]),
     category: z.enum([
       'buying-guides',
+      'budget-guides',
       'reviews',
       'comparisons',
       'how-to',
