@@ -1,16 +1,112 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ProductCard from '../components/ProductCard.astro';
+import { getCollection } from 'astro:content';
 
+// Get featured machines
+const machines = await getCollection('machines', ({ data }) => data.featured);
+const featuredMachines = machines.sort((a, b) => (a.data.order || 99) - (b.data.order || 99)).slice(0, 3);
+
+// Get recent blog posts
+const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
+const recentPosts = blogPosts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout 
+  title="Home Espresso Hub - Find Your Perfect Home Espresso Machine in 2025"
+  description="Expert reviews, honest comparisons, and beginner-friendly guides to help you choose the best home espresso machine for your budget and skill level."
+>
+  <Header />
+  
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-br from-espresso-dark to-espresso-brown text-white section-padding">
+    <div class="container-custom text-center">
+      <h1 class="text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-6 text-white">
+        Find Your Perfect<br />
+        <span class="text-latte-tan">Home Espresso Machine</span>
+      </h1>
+      <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-gray-200">
+        Honest reviews, practical advice, and beginner-friendly guides to help you make café-quality coffee at home.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/guide/complete-home-espresso-guide" class="btn-primary text-lg">
+          Read the Complete Guide
+        </a>
+        <a href="/blog" class="btn-secondary text-lg bg-white hover:bg-latte-tan">
+          Browse Reviews
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Machines Section -->
+  <section class="section-padding bg-white">
+    <div class="container-custom">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-display font-bold text-espresso-dark mb-4">
+          Top Recommended Machines
+        </h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          Our carefully selected picks for different budgets and skill levels.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {featuredMachines.map(machine => (
+          <ProductCard {...machine.data} />
+        ))}
+      </div>
+
+      <div class="text-center mt-12">
+        <a href="/blog" class="btn-primary">
+          See All Reviews
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Posts Section -->
+  <section class="section-padding bg-cream">
+    <div class="container-custom">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-display font-bold text-espresso-dark mb-4">
+          Latest Guides & Reviews
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {recentPosts.map(post => (
+          <article class="card">
+            {post.data.heroImage && (
+              <img 
+                src={post.data.heroImage}
+                alt={post.data.title}
+                class="w-full h-48 object-cover rounded-lg mb-4"
+              />
+            )}
+            <h3 class="text-xl font-bold text-espresso-dark mb-2">
+              <a href={`/blog/${post.slug}`} class="hover:text-caramel transition">
+                {post.data.title}
+              </a>
+            </h3>
+            <p class="text-gray-600 mb-4">
+              {post.data.description}
+            </p>
+            <a 
+              href={`/blog/${post.slug}`}
+              class="text-caramel font-semibold hover:text-espresso-brown"
+            >
+              Read More →
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>
