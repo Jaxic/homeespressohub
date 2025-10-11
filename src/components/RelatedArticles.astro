@@ -1,0 +1,51 @@
+---
+import { getCollection } from 'astro:content';
+
+interface Props {
+  category: string;
+  currentSlug: string;
+  limit?: number;
+}
+
+const { category, currentSlug, limit = 3 } = Astro.props;
+
+// Get related articles from same category
+const allPosts = await getCollection('blog', ({ data }) => {
+  return data.category === category && !data.draft;
+});
+
+// Filter out current post and limit results
+const relatedPosts = allPosts
+  .filter(post => !currentSlug.includes(post.slug))
+  .slice(0, limit);
+---
+
+{relatedPosts.length > 0 && (
+  <div>
+    <h2 class="text-2xl font-display font-bold text-espresso-dark mb-6">
+      Related Articles
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {relatedPosts.map(post => (
+        <a 
+          href={`/blog/${post.slug}`}
+          class="card hover:shadow-xl transition-all no-underline group"
+        >
+          {post.data.heroImage && (
+            <img 
+              src={post.data.heroImage}
+              alt={post.data.title}
+              class="w-full h-40 object-cover rounded-lg mb-4"
+            />
+          )}
+          <h3 class="text-lg font-bold text-espresso-dark group-hover:text-caramel transition mb-2">
+            {post.data.title}
+          </h3>
+          <p class="text-sm text-gray-600">
+            {post.data.description.slice(0, 100)}...
+          </p>
+        </a>
+      ))}
+    </div>
+  </div>
+)}

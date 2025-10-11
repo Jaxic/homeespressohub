@@ -1,0 +1,2421 @@
+# Claude Code Setup Instructions: Home Espresso Machine Authority Site
+
+## Project Overview
+Build the complete technical framework for a home espresso machine affiliate niche site using Astro, TypeScript, and Tailwind CSS. This will be a single-pillar content site with blog posts, product listings, and static pages.
+
+**Project Name:** home-espresso-hub  
+**Tech Stack:** Astro + TypeScript + Tailwind CSS  
+**Content:** Markdown-based with three content collections (blog, pillars, machines)
+
+---
+
+## Phase 1: Project Initialization
+
+### 1.1 Create New Astro Project
+```bash
+# Create new Astro project with TypeScript
+npm create astro@latest home-espresso-hub
+
+# When prompted, select:
+# - Template: "Empty" or "Blog" (we'll customize heavily)
+# - TypeScript: Yes, strict
+# - Install dependencies: Yes
+# - Git repository: Yes
+
+cd home-espresso-hub
+```
+
+### 1.2 Install Required Dependencies
+```bash
+# Install Tailwind CSS
+npx astro add tailwind
+
+# Install additional dependencies
+npm install @astrojs/sitemap @astrojs/rss
+```
+
+### 1.3 Update package.json
+Update the project name and add useful scripts:
+
+```json
+{
+  "name": "home-espresso-hub",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  }
+}
+```
+
+---
+
+## Phase 2: Configuration Files
+
+### 2.1 Astro Configuration (astro.config.mjs)
+```javascript
+import { defineConfig } from 'astro/config';
+import tailwind from '@astrojs/tailwind';
+import sitemap from '@astrojs/sitemap';
+
+export default defineConfig({
+  site: 'https://homeespressohub.com',
+  integrations: [
+    tailwind(),
+    sitemap()
+  ],
+  markdown: {
+    shikiConfig: {
+      theme: 'github-dark',
+      wrap: true
+    }
+  }
+});
+```
+
+### 2.2 Tailwind Configuration (tailwind.config.mjs)
+```javascript
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  theme: {
+    extend: {
+      colors: {
+        // Coffee-themed color palette
+        'espresso-dark': '#2C1810',
+        'espresso-brown': '#8B4513',
+        'latte-tan': '#D4A574',
+        'cream': '#F5F5DC',
+        'caramel': '#C67C4E',
+      },
+      fontFamily: {
+        display: ['Montserrat', 'sans-serif'],
+        body: ['Open Sans', 'sans-serif'],
+      },
+    },
+  },
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
+}
+```
+
+### 2.3 TypeScript Configuration (tsconfig.json)
+Ensure strict mode is enabled:
+```json
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
+  }
+}
+```
+
+---
+
+## Phase 3: Directory Structure Setup
+
+### 3.1 Create Complete Directory Structure
+```bash
+# Create all required directories
+mkdir -p src/content/blog
+mkdir -p src/content/pillars
+mkdir -p src/content/machines
+mkdir -p src/layouts
+mkdir -p src/components
+mkdir -p src/pages
+mkdir -p src/styles
+mkdir -p public/images/machines
+mkdir -p public/images/blog
+mkdir -p public/images/pillars
+```
+
+---
+
+## Phase 4: Content Collections Schema
+
+### 4.1 Create Content Collections Config (src/content/config.ts)
+
+```typescript
+import { defineCollection, z } from 'astro:content';
+
+// Blog collection schema
+const blogCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.date(),
+    updatedDate: z.date().optional(),
+    heroImage: z.string().optional(),
+    tags: z.array(z.string()).default([]),
+    category: z.enum([
+      'buying-guides',
+      'reviews',
+      'comparisons',
+      'how-to',
+      'accessories'
+    ]),
+    featured: z.boolean().default(false),
+    draft: z.boolean().default(false),
+  }),
+});
+
+// Pillars collection schema
+const pillarsCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    heroImage: z.string().optional(),
+    pubDate: z.date(),
+    updatedDate: z.date().optional(),
+    relatedArticles: z.array(z.string()).default([]),
+    featured: z.boolean().default(true),
+    tableOfContents: z.boolean().default(true),
+  }),
+});
+
+// Machines (products) collection schema
+const machinesCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    name: z.string(),
+    brand: z.string(),
+    price: z.number(),
+    originalPrice: z.number().optional(),
+    image: z.string(),
+    amazonLink: z.string().url(),
+    affiliateLink: z.string().url().optional(),
+    features: z.array(z.string()),
+    specs: z.object({
+      boilerType: z.string(),
+      pressure: z.string(),
+      waterTank: z.string(),
+      dimensions: z.string(),
+      warranty: z.string(),
+    }),
+    benefitDescription: z.string(),
+    rating: z.number().min(0).max(5),
+    category: z.enum([
+      'manual',
+      'semi-automatic',
+      'automatic',
+      'super-automatic'
+    ]),
+    priceRange: z.enum(['budget', 'mid-range', 'premium', 'prosumer']),
+    bestFor: z.enum(['beginners', 'intermediate', 'advanced', 'all']),
+    featured: z.boolean().default(false),
+    order: z.number().optional(),
+  }),
+});
+
+export const collections = {
+  blog: blogCollection,
+  pillars: pillarsCollection,
+  machines: machinesCollection,
+};
+```
+
+---
+
+## Phase 5: Global Styles
+
+### 5.1 Create Global CSS (src/styles/global.css)
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600;700&display=swap');
+
+@layer base {
+  body {
+    @apply font-body text-gray-800 bg-cream;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold text-espresso-dark;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl mb-6;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl mb-4 mt-8;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl mb-3 mt-6;
+  }
+
+  h4 {
+    @apply text-xl md:text-2xl mb-2 mt-4;
+  }
+
+  p {
+    @apply text-base md:text-lg leading-relaxed mb-4;
+  }
+
+  a {
+    @apply text-caramel hover:text-espresso-brown transition-colors underline;
+  }
+
+  strong {
+    @apply font-semibold text-espresso-dark;
+  }
+
+  ul, ol {
+    @apply ml-6 mb-4 space-y-2;
+  }
+
+  ul {
+    @apply list-disc;
+  }
+
+  ol {
+    @apply list-decimal;
+  }
+
+  li {
+    @apply text-base md:text-lg;
+  }
+
+  blockquote {
+    @apply border-l-4 border-latte-tan pl-4 italic my-4 text-gray-700;
+  }
+
+  code {
+    @apply bg-gray-100 px-2 py-1 rounded text-sm font-mono;
+  }
+
+  pre {
+    @apply bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mb-4;
+  }
+
+  img {
+    @apply rounded-lg shadow-md;
+  }
+
+  table {
+    @apply w-full border-collapse mb-6;
+  }
+
+  th {
+    @apply bg-espresso-dark text-white p-3 text-left font-semibold;
+  }
+
+  td {
+    @apply border border-gray-300 p-3;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-caramel hover:bg-espresso-brown text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg;
+  }
+
+  .btn-secondary {
+    @apply bg-latte-tan hover:bg-caramel text-espresso-dark font-semibold px-6 py-3 rounded-lg transition-all duration-200;
+  }
+
+  .card {
+    @apply bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow;
+  }
+
+  .section-padding {
+    @apply py-12 md:py-16 lg:py-20;
+  }
+
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
+```
+
+---
+
+## Phase 6: Layout Components
+
+### 6.1 Base Layout (src/layouts/BaseLayout.astro)
+
+```astro
+---
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+}
+
+const { title, description, image = '/images/default-og.jpg' } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- SEO Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(image, Astro.site)} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+```
+
+### 6.2 Blog Post Layout (src/layouts/BlogPostLayout.astro)
+
+```astro
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import RelatedArticles from '../components/RelatedArticles.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  heroImage?: string;
+  category: string;
+}
+
+const { title, description, pubDate, updatedDate, heroImage, category } = Astro.props;
+
+const formattedPubDate = new Date(pubDate).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
+
+const formattedUpdatedDate = updatedDate ? new Date(updatedDate).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+}) : null;
+---
+
+<BaseLayout title={title} description={description} image={heroImage}>
+  <Header />
+  
+  <main class="container-custom section-padding">
+    <article class="max-w-4xl mx-auto">
+      <!-- Breadcrumbs -->
+      <nav class="text-sm mb-6">
+        <ol class="flex items-center space-x-2 text-gray-600">
+          <li><a href="/" class="hover:text-caramel">Home</a></li>
+          <li>/</li>
+          <li><a href="/blog" class="hover:text-caramel">Blog</a></li>
+          <li>/</li>
+          <li class="text-gray-800">{category}</li>
+        </ol>
+      </nav>
+
+      <!-- Article Header -->
+      <header class="mb-8">
+        <h1 class="mb-4">{title}</h1>
+        <div class="flex items-center space-x-4 text-gray-600 text-sm">
+          <time datetime={pubDate.toISOString()}>
+            Published: {formattedPubDate}
+          </time>
+          {formattedUpdatedDate && (
+            <>
+              <span>•</span>
+              <time datetime={updatedDate?.toISOString()}>
+                Updated: {formattedUpdatedDate}
+              </time>
+            </>
+          )}
+        </div>
+      </header>
+
+      <!-- Hero Image -->
+      {heroImage && (
+        <div class="mb-8">
+          <img 
+            src={heroImage} 
+            alt={title}
+            class="w-full h-auto rounded-lg shadow-lg"
+          />
+        </div>
+      )}
+
+      <!-- Article Content -->
+      <div class="prose prose-lg max-w-none">
+        <slot />
+      </div>
+
+      <!-- Related Articles -->
+      <div class="mt-12 pt-8 border-t border-gray-200">
+        <RelatedArticles category={category} currentSlug={Astro.url.pathname} />
+      </div>
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+```
+
+### 6.3 Pillar Layout (src/layouts/PillarLayout.astro)
+
+```astro
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  heroImage?: string;
+  tableOfContents?: boolean;
+}
+
+const { title, description, heroImage, tableOfContents = true } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} image={heroImage}>
+  <Header />
+  
+  <main class="container-custom section-padding">
+    <!-- Hero Section -->
+    <div class="max-w-4xl mx-auto mb-12">
+      <h1 class="text-center mb-6">{title}</h1>
+      <p class="text-xl text-center text-gray-700 max-w-3xl mx-auto">
+        {description}
+      </p>
+    </div>
+
+    {heroImage && (
+      <div class="max-w-5xl mx-auto mb-12">
+        <img 
+          src={heroImage} 
+          alt={title}
+          class="w-full h-auto rounded-lg shadow-xl"
+        />
+      </div>
+    )}
+
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+      <!-- Table of Contents Sidebar (Desktop) -->
+      {tableOfContents && (
+        <aside class="hidden lg:block lg:col-span-1">
+          <div class="sticky top-8">
+            <TableOfContents />
+          </div>
+        </aside>
+      )}
+
+      <!-- Main Content -->
+      <article class={tableOfContents ? "lg:col-span-3" : "lg:col-span-4"}>
+        <div class="prose prose-lg max-w-none">
+          <slot />
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+```
+
+---
+
+## Phase 7: Core Components
+
+### 7.1 Header Component (src/components/Header.astro)
+
+```astro
+---
+const navItems = [
+  { name: 'Home', href: '/' },
+  { name: 'Complete Guide', href: '/guide/complete-home-espresso-guide' },
+  { name: 'Reviews', href: '/blog' },
+  { name: 'About', href: '/about' },
+];
+---
+
+<header class="bg-espresso-dark text-white shadow-lg sticky top-0 z-50">
+  <nav class="container-custom">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <a href="/" class="flex items-center space-x-2 no-underline hover:opacity-80 transition">
+        <span class="text-2xl font-display font-bold text-latte-tan">
+          Home Espresso Hub
+        </span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center space-x-8">
+        {navItems.map(item => (
+          <a 
+            href={item.href}
+            class="text-white hover:text-latte-tan transition-colors no-underline font-semibold"
+          >
+            {item.name}
+          </a>
+        ))}
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button 
+        id="mobile-menu-button"
+        class="md:hidden p-2 rounded-lg hover:bg-espresso-brown transition"
+        aria-label="Toggle menu"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div id="mobile-menu" class="hidden md:hidden pb-4">
+      {navItems.map(item => (
+        <a 
+          href={item.href}
+          class="block py-2 text-white hover:text-latte-tan transition-colors no-underline"
+        >
+          {item.name}
+        </a>
+      ))}
+    </div>
+  </nav>
+</header>
+
+<script>
+  const button = document.getElementById('mobile-menu-button');
+  const menu = document.getElementById('mobile-menu');
+  
+  button?.addEventListener('click', () => {
+    menu?.classList.toggle('hidden');
+  });
+</script>
+```
+
+### 7.2 Footer Component (src/components/Footer.astro)
+
+```astro
+---
+const currentYear = new Date().getFullYear();
+
+const categories = [
+  { name: 'Buying Guides', href: '/blog?category=buying-guides' },
+  { name: 'Reviews', href: '/blog?category=reviews' },
+  { name: 'Comparisons', href: '/blog?category=comparisons' },
+  { name: 'How-To Guides', href: '/blog?category=how-to' },
+];
+
+const legalLinks = [
+  { name: 'About', href: '/about' },
+  { name: 'Privacy Policy', href: '/privacy' },
+  { name: 'Affiliate Disclosure', href: '/disclosure' },
+];
+---
+
+<footer class="bg-espresso-dark text-white mt-20">
+  <div class="container-custom py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- About Section -->
+      <div>
+        <h3 class="text-xl font-display font-bold text-latte-tan mb-4">
+          Home Espresso Hub
+        </h3>
+        <p class="text-gray-300 text-sm leading-relaxed">
+          Your trusted guide to finding the perfect home espresso machine. 
+          Honest reviews, practical advice, and beginner-friendly guides to 
+          help you make great coffee at home.
+        </p>
+      </div>
+
+      <!-- Categories -->
+      <div>
+        <h3 class="text-lg font-display font-bold mb-4">Categories</h3>
+        <ul class="space-y-2">
+          {categories.map(cat => (
+            <li>
+              <a 
+                href={cat.href}
+                class="text-gray-300 hover:text-latte-tan transition-colors text-sm no-underline"
+              >
+                {cat.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Legal Links -->
+      <div>
+        <h3 class="text-lg font-display font-bold mb-4">Information</h3>
+        <ul class="space-y-2">
+          {legalLinks.map(link => (
+            <li>
+              <a 
+                href={link.href}
+                class="text-gray-300 hover:text-latte-tan transition-colors text-sm no-underline"
+              >
+                {link.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
+      <p>© {currentYear} Home Espresso Hub. All rights reserved.</p>
+      <p class="mt-2">
+        As an Amazon Associate, we earn from qualifying purchases.
+      </p>
+    </div>
+  </div>
+</footer>
+```
+
+### 7.3 Product Card Component (src/components/ProductCard.astro)
+
+```astro
+---
+interface Props {
+  name: string;
+  brand: string;
+  price: number;
+  originalPrice?: number;
+  image: string;
+  rating: number;
+  affiliateLink: string;
+  category: string;
+  bestFor: string;
+}
+
+const { 
+  name, 
+  brand, 
+  price, 
+  originalPrice, 
+  image, 
+  rating, 
+  affiliateLink,
+  category,
+  bestFor 
+} = Astro.props;
+
+const discount = originalPrice ? Math.round(((originalPrice - price) / originalPrice) * 100) : 0;
+---
+
+<div class="card h-full flex flex-col">
+  <!-- Product Image -->
+  <div class="relative mb-4">
+    <img 
+      src={image} 
+      alt={name}
+      class="w-full h-48 object-cover rounded-lg"
+    />
+    {discount > 0 && (
+      <span class="absolute top-2 right-2 bg-caramel text-white px-3 py-1 rounded-full text-sm font-bold">
+        -{discount}%
+      </span>
+    )}
+  </div>
+
+  <!-- Product Info -->
+  <div class="flex-1">
+    <p class="text-sm text-gray-600 mb-1">{brand}</p>
+    <h3 class="text-xl font-bold text-espresso-dark mb-2">{name}</h3>
+    
+    <!-- Rating -->
+    <div class="flex items-center mb-3">
+      <div class="flex text-yellow-400">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <svg 
+            class={`w-5 h-5 ${i < Math.floor(rating) ? 'fill-current' : 'fill-gray-300'}`}
+            viewBox="0 0 20 20"
+          >
+            <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+          </svg>
+        ))}
+      </div>
+      <span class="ml-2 text-sm text-gray-600">{rating.toFixed(1)}</span>
+    </div>
+
+    <!-- Badges -->
+    <div class="flex flex-wrap gap-2 mb-4">
+      <span class="text-xs bg-latte-tan text-espresso-dark px-2 py-1 rounded">
+        {category}
+      </span>
+      <span class="text-xs bg-cream text-espresso-dark px-2 py-1 rounded border border-gray-300">
+        Best for: {bestFor}
+      </span>
+    </div>
+  </div>
+
+  <!-- Price & CTA -->
+  <div class="mt-auto">
+    <div class="flex items-baseline mb-3">
+      <span class="text-3xl font-bold text-espresso-dark">${price}</span>
+      {originalPrice && (
+        <span class="ml-2 text-lg text-gray-500 line-through">${originalPrice}</span>
+      )}
+    </div>
+    
+    <a 
+      href={affiliateLink}
+      target="_blank"
+      rel="nofollow noopener"
+      class="btn-primary w-full block text-center no-underline"
+    >
+      Check Price on Amazon
+    </a>
+  </div>
+</div>
+```
+
+### 7.4 Comparison Table Component (src/components/ComparisonTable.astro)
+
+```astro
+---
+interface Machine {
+  name: string;
+  price: number;
+  rating: number;
+  category: string;
+  boilerType: string;
+  affiliateLink: string;
+}
+
+interface Props {
+  machines: Machine[];
+}
+
+const { machines } = Astro.props;
+---
+
+<div class="overflow-x-auto">
+  <table class="w-full">
+    <thead>
+      <tr>
+        <th>Machine</th>
+        <th>Price</th>
+        <th>Rating</th>
+        <th>Type</th>
+        <th>Boiler</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {machines.map(machine => (
+        <tr class="hover:bg-gray-50">
+          <td class="font-semibold">{machine.name}</td>
+          <td>${machine.price}</td>
+          <td>
+            <span class="flex items-center">
+              <span class="text-yellow-400 mr-1">★</span>
+              {machine.rating.toFixed(1)}
+            </span>
+          </td>
+          <td>{machine.category}</td>
+          <td class="text-sm">{machine.boilerType}</td>
+          <td>
+            <a 
+              href={machine.affiliateLink}
+              target="_blank"
+              rel="nofollow noopener"
+              class="text-caramel hover:text-espresso-brown font-semibold text-sm"
+            >
+              View Deal →
+            </a>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+```
+
+### 7.5 Table of Contents Component (src/components/TableOfContents.astro)
+
+```astro
+<div class="bg-white rounded-lg shadow-md p-6">
+  <h3 class="text-lg font-display font-bold text-espresso-dark mb-4">
+    Table of Contents
+  </h3>
+  
+  <nav id="toc" class="space-y-2">
+    <!-- This will be populated by JavaScript based on article headings -->
+  </nav>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const article = document.querySelector('article');
+    const toc = document.getElementById('toc');
+    
+    if (!article || !toc) return;
+    
+    const headings = article.querySelectorAll('h2, h3');
+    
+    headings.forEach((heading, index) => {
+      const id = heading.id || `heading-${index}`;
+      heading.id = id;
+      
+      const link = document.createElement('a');
+      link.href = `#${id}`;
+      link.textContent = heading.textContent || '';
+      link.className = heading.tagName === 'H2' 
+        ? 'block text-sm text-gray-700 hover:text-caramel transition py-1' 
+        : 'block text-sm text-gray-600 hover:text-caramel transition py-1 pl-4';
+      
+      toc.appendChild(link);
+    });
+  });
+</script>
+```
+
+### 7.6 Related Articles Component (src/components/RelatedArticles.astro)
+
+```astro
+---
+import { getCollection } from 'astro:content';
+
+interface Props {
+  category: string;
+  currentSlug: string;
+  limit?: number;
+}
+
+const { category, currentSlug, limit = 3 } = Astro.props;
+
+// Get related articles from same category
+const allPosts = await getCollection('blog', ({ data }) => {
+  return data.category === category && !data.draft;
+});
+
+// Filter out current post and limit results
+const relatedPosts = allPosts
+  .filter(post => !currentSlug.includes(post.slug))
+  .slice(0, limit);
+---
+
+{relatedPosts.length > 0 && (
+  <div>
+    <h2 class="text-2xl font-display font-bold text-espresso-dark mb-6">
+      Related Articles
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {relatedPosts.map(post => (
+        <a 
+          href={`/blog/${post.slug}`}
+          class="card hover:shadow-xl transition-all no-underline group"
+        >
+          {post.data.heroImage && (
+            <img 
+              src={post.data.heroImage}
+              alt={post.data.title}
+              class="w-full h-40 object-cover rounded-lg mb-4"
+            />
+          )}
+          <h3 class="text-lg font-bold text-espresso-dark group-hover:text-caramel transition mb-2">
+            {post.data.title}
+          </h3>
+          <p class="text-sm text-gray-600">
+            {post.data.description.slice(0, 100)}...
+          </p>
+        </a>
+      ))}
+    </div>
+  </div>
+)}
+```
+
+---
+
+## Phase 8: Static Pages
+
+### 8.1 Homepage (src/pages/index.astro)
+
+```astro
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ProductCard from '../components/ProductCard.astro';
+import { getCollection } from 'astro:content';
+
+// Get featured machines
+const machines = await getCollection('machines', ({ data }) => data.featured);
+const featuredMachines = machines.sort((a, b) => (a.data.order || 99) - (b.data.order || 99)).slice(0, 3);
+
+// Get recent blog posts
+const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
+const recentPosts = blogPosts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout 
+  title="Home Espresso Hub - Find Your Perfect Home Espresso Machine in 2025"
+  description="Expert reviews, honest comparisons, and beginner-friendly guides to help you choose the best home espresso machine for your budget and skill level."
+>
+  <Header />
+  
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-br from-espresso-dark to-espresso-brown text-white section-padding">
+    <div class="container-custom text-center">
+      <h1 class="text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-6 text-white">
+        Find Your Perfect<br />
+        <span class="text-latte-tan">Home Espresso Machine</span>
+      </h1>
+      <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-gray-200">
+        Honest reviews, practical advice, and beginner-friendly guides to help you make café-quality coffee at home.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/guide/complete-home-espresso-guide" class="btn-primary text-lg">
+          Read the Complete Guide
+        </a>
+        <a href="/blog" class="btn-secondary text-lg bg-white hover:bg-latte-tan">
+          Browse Reviews
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Machines Section -->
+  <section class="section-padding bg-white">
+    <div class="container-custom">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-display font-bold text-espresso-dark mb-4">
+          Top Recommended Machines
+        </h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          Our carefully selected picks for different budgets and skill levels.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {featuredMachines.map(machine => (
+          <ProductCard {...machine.data} />
+        ))}
+      </div>
+
+      <div class="text-center mt-12">
+        <a href="/blog" class="btn-primary">
+          See All Reviews
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Posts Section -->
+  <section class="section-padding bg-cream">
+    <div class="container-custom">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-display font-bold text-espresso-dark mb-4">
+          Latest Guides & Reviews
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {recentPosts.map(post => (
+          <article class="card">
+            {post.data.heroImage && (
+              <img 
+                src={post.data.heroImage}
+                alt={post.data.title}
+                class="w-full h-48 object-cover rounded-lg mb-4"
+              />
+            )}
+            <h3 class="text-xl font-bold text-espresso-dark mb-2">
+              <a href={`/blog/${post.slug}`} class="hover:text-caramel transition">
+                {post.data.title}
+              </a>
+            </h3>
+            <p class="text-gray-600 mb-4">
+              {post.data.description}
+            </p>
+            <a 
+              href={`/blog/${post.slug}`}
+              class="text-caramel font-semibold hover:text-espresso-brown"
+            >
+              Read More →
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>
+```
+
+### 8.2 Blog Listing Page (src/pages/blog.astro)
+
+```astro
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const sortedPosts = allPosts.sort((a, b) => 
+  b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// Get unique categories
+const categories = [...new Set(allPosts.map(post => post.data.category))];
+---
+
+<BaseLayout 
+  title="Espresso Machine Reviews & Buying Guides - Home Espresso Hub"
+  description="Browse our comprehensive collection of espresso machine reviews, comparisons, and buying guides for every budget and skill level."
+>
+  <Header />
+  
+  <main class="container-custom section-padding">
+    <!-- Page Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-5xl font-display font-bold text-espresso-dark mb-4">
+        Reviews & Guides
+      </h1>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Everything you need to know about choosing and using home espresso machines.
+      </p>
+    </div>
+
+    <!-- Category Filter -->
+    <div class="flex flex-wrap gap-3 justify-center mb-12">
+      <button class="filter-btn active" data-category="all">
+        All Posts
+      </button>
+      {categories.map(cat => (
+        <button class="filter-btn" data-category={cat}>
+          {cat.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+        </button>
+      ))}
+    </div>
+
+    <!-- Posts Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="posts-grid">
+      {sortedPosts.map(post => (
+        <article 
+          class="card post-item"
+          data-category={post.data.category}
+        >
+          {post.data.heroImage && (
+            <img 
+              src={post.data.heroImage}
+              alt={post.data.title}
+              class="w-full h-48 object-cover rounded-lg mb-4"
+            />
+          )}
+          
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-xs bg-latte-tan text-espresso-dark px-2 py-1 rounded">
+              {post.data.category}
+            </span>
+            <time class="text-sm text-gray-600">
+              {post.data.pubDate.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+              })}
+            </time>
+          </div>
+
+          <h2 class="text-xl font-bold text-espresso-dark mb-3">
+            <a href={`/blog/${post.slug}`} class="hover:text-caramel transition">
+              {post.data.title}
+            </a>
+          </h2>
+
+          <p class="text-gray-600 mb-4">
+            {post.data.description}
+          </p>
+
+          <a 
+            href={`/blog/${post.slug}`}
+            class="text-caramel font-semibold hover:text-espresso-brown inline-flex items-center"
+          >
+            Read More 
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </article>
+      ))}
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script>
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const postItems = document.querySelectorAll('.post-item');
+
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const category = button.getAttribute('data-category');
+      
+      // Update active button
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+      
+      // Filter posts
+      postItems.forEach(post => {
+        if (category === 'all' || post.getAttribute('data-category') === category) {
+          post.style.display = 'block';
+        } else {
+          post.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .filter-btn {
+    @apply px-4 py-2 rounded-lg border-2 border-gray-300 text-gray-700 font-semibold transition-all;
+  }
+  
+  .filter-btn:hover {
+    @apply border-caramel text-caramel;
+  }
+  
+  .filter-btn.active {
+    @apply bg-caramel text-white border-caramel;
+  }
+</style>
+```
+
+### 8.3 About Page (src/pages/about.astro)
+
+```astro
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout 
+  title="About Home Espresso Hub - Our Mission & Story"
+  description="Learn about Home Espresso Hub and our mission to help coffee lovers find the perfect home espresso machine through honest reviews and practical advice."
+>
+  <Header />
+  
+  <main class="container-custom section-padding">
+    <article class="max-w-4xl mx-auto">
+      <h1 class="text-center mb-8">About Home Espresso Hub</h1>
+      
+      <div class="prose prose-lg max-w-none">
+        <p class="text-xl text-gray-700 mb-6">
+          We're coffee enthusiasts on a mission to help people make great espresso at home without the overwhelm.
+        </p>
+
+        <h2>Our Story</h2>
+        <p>
+          Home Espresso Hub was created by coffee lovers who remember how intimidating it was to buy our first espresso machines. 
+          With so many options, conflicting reviews, and technical jargon, making a confident decision felt impossible.
+        </p>
+
+        <p>
+          We started this site to be the resource we wished we had: honest reviews, practical advice, and beginner-friendly 
+          guidance that cuts through the marketing hype and coffee snobbery.
+        </p>
+
+        <h2>Our Approach</h2>
+        <ul>
+          <li><strong>Honest & Transparent:</strong> We share real pros and cons, never just the marketing highlights.</li>
+          <li><strong>Beginner-Focused:</strong> We explain technical terms and prioritize ease of use.</li>
+          <li><strong>Budget-Conscious:</strong> Great coffee doesn't require a $2,000 machine.</li>
+          <li><strong>Practical Testing:</strong> We focus on real-world use, not just spec sheets.</li>
+          <li><strong>No Gatekeeping:</strong> Everyone deserves access to good coffee at home.</li>
+        </ul>
+
+        <h2>How We Make Money</h2>
+        <p>
+          This site is supported through affiliate partnerships, primarily with Amazon Associates and specialty coffee 
+          equipment retailers. When you purchase through our links, we earn a small commission at no extra cost to you.
+        </p>
+
+        <p>
+          <strong>Important:</strong> Our affiliate relationships never influence our recommendations. We only recommend 
+          products we genuinely believe offer value, and we're always transparent about both strengths and weaknesses.
+        </p>
+
+        <p>
+          For complete details, please read our <a href="/disclosure">Affiliate Disclosure</a>.
+        </p>
+
+        <h2>Our Testing Process</h2>
+        <p>
+          We evaluate espresso machines based on:
+        </p>
+        <ul>
+          <li>Ease of use for beginners</li>
+          <li>Coffee quality and consistency</li>
+          <li>Build quality and durability</li>
+          <li>Value for money at each price point</li>
+          <li>Maintenance requirements</li>
+          <li>Customer support and warranty</li>
+        </ul>
+
+        <h2>Get in Touch</h2>
+        <p>
+          Have questions, suggestions, or feedback? We'd love to hear from you. While we can't respond to every message, 
+          we read everything and use your input to improve our content.
+        </p>
+
+        <div class="card mt-8 text-center">
+          <p class="text-lg mb-0">
+            Ready to find your perfect espresso machine?
+          </p>
+          <a href="/guide/complete-home-espresso-guide" class="btn-primary mt-4 inline-block">
+            Start with Our Complete Guide
+          </a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+```
+
+### 8.4 Privacy Policy Page (src/pages/privacy.astro)
+
+```astro
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const lastUpdated = 'January 2025';
+---
+
+<BaseLayout 
+  title="Privacy Policy - Home Espresso Hub"
+  description="Learn how Home Espresso Hub collects, uses, and protects your personal information."
+>
+  <Header />
+  
+  <main class="container-custom section-padding">
+    <article class="max-w-4xl mx-auto">
+      <h1 class="mb-4">Privacy Policy</h1>
+      <p class="text-gray-600 mb-8">Last Updated: {lastUpdated}</p>
+      
+      <div class="prose prose-lg max-w-none">
+        <h2>Introduction</h2>
+        <p>
+          Home Espresso Hub ("we," "our," or "us") respects your privacy and is committed to protecting your personal data. 
+          This privacy policy explains how we collect, use, and safeguard your information when you visit our website.
+        </p>
+
+        <h2>Information We Collect</h2>
+        <h3>Automatically Collected Information</h3>
+        <p>When you visit our site, we automatically collect:</p>
+        <ul>
+          <li>Browser type and version</li>
+          <li>Operating system</li>
+          <li>IP address</li>
+          <li>Pages visited and time spent on pages</li>
+          <li>Referring website</li>
+        </ul>
+
+        <h3>Cookies</h3>
+        <p>
+          We use cookies and similar tracking technologies to improve your browsing experience. You can control cookies 
+          through your browser settings.
+        </p>
+
+        <h2>How We Use Your Information</h2>
+        <p>We use collected information to:</p>
+        <ul>
+          <li>Analyze site traffic and usage patterns</li>
+          <li>Improve our content and user experience</li>
+          <li>Understand which products and guides are most helpful</li>
+          <li>Comply with legal obligations</li>
+        </ul>
+
+        <h2>Third-Party Services</h2>
+        <h3>Google Analytics</h3>
+        <p>
+          We use Google Analytics to understand how visitors use our site. Google Analytics collects information 
+          anonymously and reports website trends without identifying individual visitors.
+        </p>
+
+        <h3>Affiliate Links</h3>
+        <p>
+          Our site contains affiliate links to products on Amazon and other retailers. When you click these links, 
+          those companies may collect information according to their own privacy policies.
+        </p>
+
+        <h2>Your Rights</h2>
+        <p>You have the right to:</p>
+        <ul>
+          <li>Access the personal data we hold about you</li>
+          <li>Request correction of inaccurate data</li>
+          <li>Request deletion of your data</li>
+          <li>Opt out of certain data collection (via browser settings)</li>
+        </ul>
+
+        <h2>Data Security</h2>
+        <p>
+          We implement appropriate technical and organizational measures to protect your personal data. However, 
+          no internet transmission is completely secure, and we cannot guarantee absolute security.
+        </p>
+
+        <h2>Children's Privacy</h2>
+        <p>
+          Our site is not intended for children under 13. We do not knowingly collect personal information from children.
+        </p>
+
+        <h2>Changes to This Policy</h2>
+        <p>
+          We may update this privacy policy from time to time. We will notify you of any changes by posting the new 
+          policy on this page with an updated "Last Updated" date.
+        </p>
+
+        <h2>Contact Us</h2>
+        <p>
+          If you have questions about this privacy policy, please contact us through our <a href="/about">About page</a>.
+        </p>
+      </div>
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+```
+
+### 8.5 Affiliate Disclosure Page (src/pages/disclosure.astro)
+
+```astro
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout 
+  title="Affiliate Disclosure - Home Espresso Hub"
+  description="Learn about our affiliate relationships and how we monetize Home Espresso Hub while maintaining editorial integrity."
+>
+  <Header />
+  
+  <main class="container-custom section-padding">
+    <article class="max-w-4xl mx-auto">
+      <h1 class="mb-8">Affiliate Disclosure</h1>
+      
+      <div class="prose prose-lg max-w-none">
+        <div class="card bg-yellow-50 border-2 border-yellow-300 mb-8">
+          <p class="font-semibold text-lg mb-2">
+            🔔 Important Notice
+          </p>
+          <p class="mb-0">
+            Home Espresso Hub participates in affiliate programs and earns commissions from qualifying purchases made 
+            through links on this site. This helps support our work at no extra cost to you.
+          </p>
+        </div>
+
+        <h2>How Affiliate Marketing Works</h2>
+        <p>
+          When you click on certain links on our site and make a purchase, we may receive a commission from the retailer. 
+          This is at no additional cost to you—you pay the same price whether you use our links or go directly to the retailer.
+        </p>
+
+        <h2>Our Affiliate Partnerships</h2>
+        <p>We participate in the following affiliate programs:</p>
+        <ul>
+          <li><strong>Amazon Associates:</strong> Our primary affiliate partner for espresso machines and accessories</li>
+          <li><strong>Seattle Coffee Gear:</strong> Specialty coffee equipment retailer</li>
+          <li><strong>Whole Latte Love:</strong> Coffee equipment and supplies</li>
+          <li>Other specialty coffee retailers as appropriate</li>
+        </ul>
+
+        <h2>Our Commitment to You</h2>
+        <p>
+          <strong>Editorial Independence:</strong> Our affiliate relationships do not influence our recommendations. 
+          We only recommend products we genuinely believe offer value to our readers.
+        </p>
+
+        <p>We promise to:</p>
+        <ul>
+          <li>Never recommend products solely for commission potential</li>
+          <li>Always provide honest pros and cons for every product</li>
+          <li>Clearly disclose when links are affiliate links</li>
+          <li>Prioritize your needs over our earnings</li>
+          <li>Update recommendations when better options become available</li>
+        </ul>
+
+        <h2>Why We Use Affiliate Links</h2>
+        <p>
+          Creating comprehensive guides, testing products, and maintaining this site requires significant time and resources. 
+          Affiliate commissions allow us to:
+        </p>
+        <ul>
+          <li>Keep all content free for readers</li>
+          <li>Continuously research and test new products</li>
+          <li>Update content with the latest information</li>
+          <li>Maintain and improve the website</li>
+        </ul>
+
+        <h2>Products We Review</h2>
+        <p>
+          We research products through a combination of:
+        </p>
+        <ul>
+          <li>Hands-on testing when possible</li>
+          <li>Analysis of verified customer reviews</li>
+          <li>Technical specifications comparison</li>
+          <li>Expert opinions from the coffee community</li>
+          <li>Manufacturer information and documentation</li>
+        </ul>
+
+        <h2>Your Support Matters</h2>
+        <p>
+          When you purchase through our links, you help us continue creating helpful content for the coffee community. 
+          We're grateful for your support and trust.
+        </p>
+
+        <h2>Questions?</h2>
+        <p>
+          If you have questions about our affiliate relationships or how we select products to recommend, please 
+          visit our <a href="/about">About page</a>.
+        </p>
+
+        <div class="card mt-8 bg-espresso-dark text-white text-center">
+          <p class="text-lg mb-4">
+            As an Amazon Associate, we earn from qualifying purchases.
+          </p>
+          <p class="text-sm text-gray-300 mb-0">
+            This disclosure is in accordance with the Federal Trade Commission's 16 CFR Part 255: 
+            "Guides Concerning the Use of Endorsements and Testimonials in Advertising."
+          </p>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+```
+
+### 8.6 Resources Page (src/pages/resources.astro)
+
+```astro
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout 
+  title="Espresso Machine Resources & Tools - Home Espresso Hub"
+  description="Helpful resources including buying checklists, glossary of terms, and quick comparison tools for home espresso machines."
+>
+  <Header />
+  
+  <main class="container-custom section-padding">
+    <h1 class="text-center mb-12">Helpful Resources</h1>
+
+    <!-- Quick Comparison Tool -->
+    <section class="mb-16">
+      <div class="card max-w-4xl mx-auto">
+        <h2 class="text-2xl font-bold mb-6">Quick Comparison by Budget</h2>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr>
+                <th>Budget</th>
+                <th>Best For</th>
+                <th>Top Pick</th>
+                <th>Key Features</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-bold">Under $200</td>
+                <td>Beginners, tight budgets</td>
+                <td>Entry-level options</td>
+                <td>Basic espresso, learning</td>
+              </tr>
+              <tr>
+                <td class="font-bold">$200-$500</td>
+                <td>Most home users</td>
+                <td>Sweet spot</td>
+                <td>Good quality, features</td>
+              </tr>
+              <tr>
+                <td class="font-bold">$500-$1,000</td>
+                <td>Serious enthusiasts</td>
+                <td>Premium experience</td>
+                <td>Advanced control</td>
+              </tr>
+              <tr>
+                <td class="font-bold">$1,000+</td>
+                <td>Expert users</td>
+                <td>Prosumer grade</td>
+                <td>Commercial features</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-6 text-center">
+          <a href="/guide/complete-home-espresso-guide" class="btn-primary">
+            Read Detailed Comparisons
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Buying Checklist -->
+    <section class="mb-16">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold text-center mb-8">Espresso Machine Buying Checklist</h2>
+        
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="card">
+            <h3 class="text-xl font-bold mb-4">Before You Buy</h3>
+            <ul class="space-y-2">
+              <li class="flex items-start">
+                <span class="text-caramel mr-2">✓</span>
+                <span>Determine your budget (including grinder)</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-caramel mr-2">✓</span>
+                <span>Measure your counter space</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-caramel mr-2">✓</span>
+                <span>Consider your skill level</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-caramel mr-2">✓</span>
+                <span>Think about drink preferences (espresso vs milk drinks)</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-caramel mr-2">✓</span>
+                <span>Research maintenance requirements</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3 class="text-xl font-bold mb-4">Key Features to Consider</h3>
+            <ul class="space-y-2">
+              <li class="flex items-start">
+                <span class="text-caramel mr-2">✓</span>
+                <span>Machine type (manual, semi-auto, automatic)</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-caramel mr-2">✓</span>
+                <span>Boiler type and capacity</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-caramel mr-2">✓</span>
+                <span>Portafilter size (54mm vs 58mm)</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-caramel mr-2">✓</span>
+                <span>Milk frothing capability</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-caramel mr-2">✓</span>
+                <span>Temperature stability (PID control)</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Glossary -->
+    <section class="mb-16">
+      <div class="card max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold mb-8">Espresso Terminology Glossary</h2>
+        
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-lg font-bold text-caramel">Bar (Pressure)</h3>
+            <p class="text-gray-700">
+              Unit of pressure measurement. Proper espresso extraction requires 9 bars of pressure. Most machines 
+              advertise 15-20 bars, but 9 is what matters at the brew head.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-bold text-caramel">Portafilter</h3>
+            <p class="text-gray-700">
+              The handled filter basket that holds ground coffee. Common sizes are 54mm and 58mm (professional standard). 
+              Larger portafilters generally allow for more consistent extraction.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-bold text-caramel">PID Controller</h3>
+            <p class="text-gray-700">
+              Proportional-Integral-Derivative controller maintains precise water temperature, crucial for consistent 
+              espresso extraction. More common in machines $500+.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-bold text-caramel">Boiler Types</h3>
+            <p class="text-gray-700">
+              <strong>Single Boiler:</strong> One boiler for both brewing and steaming (must wait between functions).<br>
+              <strong>Heat Exchanger:</strong> Brew water passes through steam boiler for quick heating.<br>
+              <strong>Dual Boiler:</strong> Separate boilers for brewing and steaming (simultaneous operation).
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-bold text-caramel">Tamping</h3>
+            <p class="text-gray-700">
+              Compressing ground coffee in the portafilter to create even resistance for water flow. 
+              Consistent tamping pressure (about 30 lbs) is essential for quality espresso.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-bold text-caramel">Extraction Time</h3>
+            <p class="text-gray-700">
+              Time water flows through coffee grounds, typically 25-30 seconds for a double shot. 
+              Too fast = sour/weak, too slow = bitter/over-extracted.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-bold text-caramel">Crema</h3>
+            <p class="text-gray-700">
+              Golden-brown foam layer on top of espresso shot, created by emulsified oils. 
+              Indicator of proper extraction and fresh coffee, though not the only quality measure.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-bold text-caramel">Backflushing</h3>
+            <p class="text-gray-700">
+              Cleaning procedure that uses a blind basket to force water backward through the group head, 
+              removing coffee oil buildup. Required for machines with 3-way solenoid valves.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Links -->
+    <section>
+      <div class="card max-w-4xl mx-auto bg-espresso-dark text-white text-center">
+        <h2 class="text-3xl font-bold mb-6 text-white">Ready to Get Started?</h2>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/guide/complete-home-espresso-guide" class="btn-primary">
+            Read Complete Guide
+          </a>
+          <a href="/blog" class="btn-secondary bg-white hover:bg-latte-tan text-espresso-dark">
+            Browse Reviews
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+```
+
+---
+
+## Phase 9: Dynamic Routes for Collections
+
+### 9.1 Blog Post Dynamic Route (src/pages/blog/[...slug].astro)
+
+```astro
+---
+import { getCollection } from 'astro:content';
+import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('blog');
+  return blogEntries.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<BlogPostLayout {...entry.data}>
+  <Content />
+</BlogPostLayout>
+```
+
+### 9.2 Pillar Page Dynamic Route (src/pages/guide/[...slug].astro)
+
+```astro
+---
+import { getCollection } from 'astro:content';
+import PillarLayout from '../../layouts/PillarLayout.astro';
+
+export async function getStaticPaths() {
+  const pillarEntries = await getCollection('pillars');
+  return pillarEntries.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<PillarLayout {...entry.data}>
+  <Content />
+</PillarLayout>
+```
+
+---
+
+## Phase 10: Sample Content Files (Placeholders)
+
+### 10.1 Sample Pillar Page (src/content/pillars/complete-home-espresso-guide.md)
+
+```markdown
+---
+title: "The Complete Guide to Buying Your First Home Espresso Machine in 2025"
+description: "Everything you need to know to buy the perfect home espresso machine. Compare types, budgets, features, and find your ideal match."
+heroImage: "/images/pillars/espresso-guide-hero.webp"
+pubDate: 2025-01-10
+updatedDate: 2025-01-10
+relatedArticles: ["best-espresso-machine-beginners", "best-budget-espresso-machine", "manual-vs-automatic"]
+featured: true
+tableOfContents: true
+---
+
+## Introduction
+
+[PLACEHOLDER: 300 words introducing home espresso, what this guide covers, and who it's for]
+
+## Understanding Espresso Machine Types
+
+[PLACEHOLDER: 600 words explaining manual, semi-automatic, automatic, and super-automatic machines]
+
+### Manual Lever Machines
+
+[PLACEHOLDER: Content about manual machines]
+
+### Semi-Automatic Machines
+
+[PLACEHOLDER: Content about semi-automatic machines]
+
+### Automatic Machines
+
+[PLACEHOLDER: Content about automatic machines]
+
+### Super-Automatic Machines
+
+[PLACEHOLDER: Content about super-automatic machines]
+
+## Budget Planning: What to Expect
+
+[PLACEHOLDER: 500 words on budget tiers from under $200 to $2000+]
+
+## Essential Features Explained
+
+[PLACEHOLDER: 700 words on pressure, boilers, PID, portafilter size, build quality]
+
+## The Grinder Question
+
+[PLACEHOLDER: 400 words on why grinders matter, built-in vs separate]
+
+## Milk Frothing Options
+
+[PLACEHOLDER: 400 words on steam wands, automatic frothers, panarello wands]
+
+## Space & Kitchen Considerations
+
+[PLACEHOLDER: 300 words on counter space, noise, ventilation]
+
+## Maintenance & Cleaning
+
+[PLACEHOLDER: 400 words on daily cleaning, descaling, backflushing]
+
+## Common Beginner Mistakes
+
+[PLACEHOLDER: 400 words on mistakes to avoid]
+
+## Our Top Recommendations by Budget
+
+[PLACEHOLDER: 500 words with specific product recommendations]
+
+## Related Resources
+
+[PLACEHOLDER: Links to all detailed reviews and buying checklist]
+```
+
+### 10.2 Sample Blog Post (src/content/blog/best-espresso-machine-beginners.md)
+
+```markdown
+---
+title: "Best Espresso Machine for Beginners in 2025"
+description: "Find the perfect starter espresso machine with our beginner-friendly guide. Compare top models under $500 with easy-to-use features."
+pubDate: 2025-01-15
+updatedDate: 2025-01-15
+heroImage: "/images/blog/espresso-beginners-hero.webp"
+tags: ["beginner", "buying-guide", "under-500"]
+category: "buying-guides"
+featured: true
+draft: false
+---
+
+## Introduction
+
+[PLACEHOLDER: 200 words on why choosing the right beginner machine matters]
+
+For a complete breakdown of all espresso machine types, see our [Complete Home Espresso Guide](/guide/complete-home-espresso-guide).
+
+## What Beginners Should Look For
+
+[PLACEHOLDER: 300 words on key features for beginners]
+
+## Top 7 Espresso Machines for Beginners
+
+[PLACEHOLDER: 1,400 words with 7 product reviews, each 200 words]
+
+### 1. [Product Name]
+
+[PLACEHOLDER: Product details, pros, cons, best for]
+
+### 2. [Product Name]
+
+[PLACEHOLDER: Product details, pros, cons, best for]
+
+[Continue for 7 products]
+
+## Comparison Table
+
+[PLACEHOLDER: Insert comparison table component]
+
+## How to Choose Between These Options
+
+[PLACEHOLDER: 300 words on decision framework]
+
+## Frequently Asked Questions
+
+### Do I need a separate grinder?
+
+[PLACEHOLDER: Answer]
+
+### What's the difference between semi-automatic and automatic?
+
+[PLACEHOLDER: Answer]
+
+### How much should I spend as a beginner?
+
+[PLACEHOLDER: Answer]
+
+## Conclusion
+
+[PLACEHOLDER: 200 words summarizing top picks]
+
+Ready to dive deeper? Check out our [Complete Home Espresso Guide](/guide/complete-home-espresso-guide) for everything you need to know.
+
+**Related Articles:**
+- [Best Budget Espresso Machines](/blog/best-budget-espresso-machine)
+- [Manual vs Automatic Espresso Machines](/blog/manual-vs-automatic)
+```
+
+### 10.3 Sample Machine Entry (src/content/machines/breville-bambino-plus.md)
+
+```markdown
+---
+name: "Breville Bambino Plus"
+brand: "Breville"
+price: 499
+originalPrice: 599
+image: "/images/machines/breville-bambino-plus.webp"
+amazonLink: "https://amazon.com/dp/B07KGZMK8V"
+affiliateLink: "https://amzn.to/3example"
+features: 
+  - "Automatic milk frothing"
+  - "3-second heat-up time"
+  - "54mm portafilter"
+  - "Compact design"
+  - "PID temperature control"
+specs:
+  boilerType: "Thermocoil"
+  pressure: "15 bar"
+  waterTank: "64 oz"
+  dimensions: "12.5\" x 7.7\" x 12.2\""
+  warranty: "2 years"
+benefitDescription: "Perfect for beginners who want café-quality lattes without the learning curve. The automatic steam wand makes perfect microfoam every time."
+rating: 4.5
+category: "semi-automatic"
+priceRange: "mid-range"
+bestFor: "beginners"
+featured: true
+order: 1
+---
+
+[PLACEHOLDER: Optional extended product description if needed]
+```
+
+---
+
+## Phase 11: RSS Feed Setup
+
+### 11.1 Create RSS Feed (src/pages/rss.xml.js)
+
+```javascript
+import rss from '@astrojs/rss';
+import { getCollection } from 'astro:content';
+
+export async function GET(context) {
+  const blog = await getCollection('blog', ({ data }) => !data.draft);
+  const sortedPosts = blog.sort((a, b) => 
+    b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  );
+
+  return rss({
+    title: 'Home Espresso Hub',
+    description: 'Expert reviews and guides for home espresso machines',
+    site: context.site,
+    items: sortedPosts.map((post) => ({
+      title: post.data.title,
+      description: post.data.description,
+      pubDate: post.data.pubDate,
+      link: `/blog/${post.slug}/`,
+      categories: [post.data.category, ...post.data.tags],
+    })),
+    customData: `<language>en-us</language>`,
+  });
+}
+```
+
+---
+
+## Phase 12: Sitemap Configuration
+
+### 12.1 Update Astro Config for Sitemap
+
+Already configured in Phase 2.1 - the sitemap will be automatically generated at build time.
+
+---
+
+## Phase 13: Image Placeholders
+
+### 13.1 Create Placeholder Images Directory Structure
+
+```bash
+# Create placeholder image files (these will be replaced with real images)
+touch public/images/default-og.jpg
+touch public/images/pillars/espresso-guide-hero.webp
+touch public/images/blog/espresso-beginners-hero.webp
+touch public/images/machines/breville-bambino-plus.webp
+touch public/favicon.svg
+```
+
+### 13.2 Simple SVG Favicon (public/favicon.svg)
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" fill="#2C1810"/>
+  <text x="50" y="70" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="#D4A574" text-anchor="middle">E</text>
+</svg>
+```
+
+---
+
+## Phase 14: Development Scripts & Testing
+
+### 14.1 Start Development Server
+
+```bash
+npm run dev
+```
+
+Visit `http://localhost:4321` to see your site.
+
+### 14.2 Build for Production
+
+```bash
+npm run build
+```
+
+### 14.3 Preview Production Build
+
+```bash
+npm run preview
+```
+
+---
+
+## Phase 15: Git Repository Setup
+
+### 15.1 Initialize Git (if not already done)
+
+```bash
+git init
+git add .
+git commit -m "Initial commit: Home Espresso Hub framework setup"
+```
+
+### 15.2 Create .gitignore
+
+```
+# dependencies
+node_modules/
+
+# build output
+dist/
+.astro/
+
+# environment variables
+.env
+.env.local
+.env.*.local
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+```
+
+---
+
+## Phase 16: Deployment Preparation (Netlify)
+
+### 16.1 Create netlify.toml
+
+```toml
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
+
+[build.environment]
+  NODE_VERSION = "18"
+```
+
+### 16.2 Create 404 Page (src/pages/404.astro)
+
+```astro
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout 
+  title="Page Not Found - Home Espresso Hub"
+  description="The page you're looking for doesn't exist."
+>
+  <Header />
+  
+  <main class="container-custom section-padding">
+    <div class="max-w-2xl mx-auto text-center">
+      <h1 class="text-6xl font-bold text-espresso-dark mb-4">404</h1>
+      <h2 class="text-3xl font-bold text-gray-700 mb-6">Page Not Found</h2>
+      <p class="text-xl text-gray-600 mb-8">
+        Sorry, we couldn't find the page you're looking for. 
+        Maybe we can help you find what you need?
+      </p>
+      
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/" class="btn-primary">
+          Go to Homepage
+        </a>
+        <a href="/guide/complete-home-espresso-guide" class="btn-secondary">
+          Read Our Complete Guide
+        </a>
+        <a href="/blog" class="btn-secondary">
+          Browse Reviews
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+```
+
+---
+
+## Phase 17: Final Checklist
+
+### 17.1 Verify All Files Created
+
+```bash
+# Run these commands to verify structure
+ls -R src/
+ls -R public/
+```
+
+### 17.2 Test All Routes
+
+Manually test these URLs in development:
+- `http://localhost:4321/` - Homepage
+- `http://localhost:4321/blog` - Blog listing
+- `http://localhost:4321/about` - About page
+- `http://localhost:4321/privacy` - Privacy policy
+- `http://localhost:4321/disclosure` - Affiliate disclosure
+- `http://localhost:4321/resources` - Resources page
+- `http://localhost:4321/guide/complete-home-espresso-guide` - Pillar page
+- `http://localhost:4321/blog/best-espresso-machine-beginners` - Sample blog post
+- `http://localhost:4321/404` - 404 page
+
+### 17.3 Check Responsive Design
+
+Test on different screen sizes:
+- Mobile (375px)
+- Tablet (768px)
+- Desktop (1440px)
+
+### 17.4 Verify Color Scheme
+
+Check that coffee colors are applied throughout:
+- Headers: `#2C1810` (espresso-dark)
+- CTAs: `#C67C4E` (caramel)
+- Accents: `#D4A574` (latte-tan)
+- Background: `#F5F5DC` (cream)
+
+---
+
+## Phase 18: Next Steps (Content Population)
+
+### 18.1 Content Creation Priority
+
+**Week 1:**
+1. Write the main pillar page (4,000-5,000 words)
+2. Add 3 example machine entries to `/src/content/machines/`
+3. Create 3 foundational blog posts
+
+**Week 2-3:**
+1. Add remaining machine entries (10-15 total)
+2. Write 7 more blog posts (10 total)
+3. Add real product images to `/public/images/machines/`
+
+**Week 4:**
+1. Write final 5 blog posts for MVP (15 total)
+2. Add blog hero images
+3. Final review and internal linking audit
+
+### 18.2 Image Requirements
+
+**Needed Images:**
+- Logo/favicon (already has SVG placeholder)
+- Hero image for pillar page (1920x1080px)
+- 15 blog post hero images (1200x630px each)
+- 10-15 product images (800x800px each)
+- Default OG image (1200x630px)
+
+**Image Optimization:**
+- Use WebP format for faster loading
+- Compress all images
+- Include alt text in markdown
+
+### 18.3 SEO Pre-Launch Checklist
+
+- [ ] Update all meta titles with target keywords
+- [ ] Write compelling meta descriptions (under 160 chars)
+- [ ] Add Schema.org structured data (Product, Review, Article)
+- [ ] Create XML sitemap (auto-generated)
+- [ ] Set up Google Analytics 4
+- [ ] Set up Google Search Console
+- [ ] Verify all internal links work
+- [ ] Check for broken external links
+- [ ] Ensure all images have alt text
+- [ ] Test site speed (aim for Lighthouse score 90+)
+
+---
+
+## Phase 19: Deployment
+
+### 19.1 Deploy to Netlify
+
+1. Push code to GitHub:
+```bash
+git remote add origin <your-github-repo-url>
+git push -u origin main
+```
+
+2. Connect to Netlify:
+   - Log in to Netlify
+   - Click "Add new site" → "Import an existing project"
+   - Connect to GitHub
+   - Select your repository
+   - Build settings should auto-detect from `netlify.toml`
+   - Click "Deploy site"
+
+3. Configure custom domain:
+   - Go to Site settings → Domain management
+   - Add custom domain: `homeespressohub.com`
+   - Configure DNS settings as instructed
+
+### 19.2 Post-Deployment Verification
+
+- [ ] Visit live site and test all routes
+- [ ] Check SSL certificate is active (https://)
+- [ ] Verify RSS feed works: `homeespressohub.com/rss.xml`
+- [ ] Test mobile responsiveness on real devices
+- [ ] Check page load times
+- [ ] Verify all affiliate links work
+- [ ] Submit sitemap to Google Search Console
+
+---
+
+## Phase 20: Maintenance & Updates
+
+### 20.1 Regular Updates
+
+**Weekly:**
+- Check for new content to publish
+- Monitor affiliate link functionality
+- Review site analytics
+
+**Monthly:**
+- Update product prices
+- Check for broken links
+- Review and update top-performing posts
+- Add 2-3 internal links to new content
+
+**Quarterly:**
+- Major pillar page update
+- Refresh publish dates on evergreen content
+- Update Astro and dependencies
+- Review and optimize site speed
+
+### 20.2 Content Management Workflow
+
+**Adding a New Blog Post:**
+1. Create new file: `src/content/blog/your-post-slug.md`
+2. Add frontmatter with all required fields
+3. Write content in markdown
+4. Add hero image to `/public/images/blog/`
+5. Include 2-3 links to pillar page
+6. Include 2-3 links to related posts
+7. Add affiliate links where appropriate
+8. Test locally with `npm run dev`
+9. Commit and push to deploy
+
+**Adding a New Product:**
+1. Create new file: `src/content/machines/product-slug.md`
+2. Add frontmatter with product specs
+3. Add product image to `/public/images/machines/`
+4. Update Amazon affiliate link
+5. Reference in relevant blog posts
+6. Deploy
+
+---
+
+## Troubleshooting Common Issues
+
+### Issue: TypeScript errors in content schema
+
+**Solution:** Ensure all required frontmatter fields are present and match the schema types defined in `src/content/config.ts`
+
+### Issue: Images not displaying
+
+**Solution:** 
+- Verify image path starts with `/` (e.g., `/images/blog/hero.webp`)
+- Check that image file exists in `/public/` directory
+- Images in `/public/` are served from site root
+
+### Issue: Internal links broken
+
+**Solution:** 
+- Use relative paths: `/blog/post-slug` not `blog/post-slug`
+- For collection items, use: `/blog/${post.slug}`
+- Test all links locally before deploying
+
+### Issue: Tailwind styles not applying
+
+**Solution:**
+- Ensure file paths are in `content` array in `tailwind.config.mjs`
+- Restart dev server after config changes
+- Check for typos in class names
+
+### Issue: Build fails on Netlify
+
+**Solution:**
+- Check `netlify.toml` build command is correct
+- Verify Node version is 18 or higher
+- Review build logs for specific errors
+- Test build locally with `npm run build`
+
+---
+
+## Summary
+
+You now have a complete, production-ready framework for the Home Espresso Hub niche site with:
+
+✅ Astro + TypeScript setup
+✅ Tailwind CSS with coffee-themed colors
+✅ Three content collections (blog, pillars, machines)
+✅ Complete component library
+✅ All static pages (home, about, privacy, etc.)
+✅ Responsive design
+✅ SEO optimization ready
+✅ RSS feed
+✅ Sitemap generation
+✅ Netlify deployment config
+✅ Sample content structure
+
+**Next Steps:**
+1. Start development server: `npm run dev`
+2. Begin populating content collections with real content
+3. Add product images
+4. Test thoroughly
+5. Deploy to Netlify
+6. Start publishing blog posts!
+
+The technical framework is complete. All that's needed now is your content workflow to fill in the markdown files with actual articles, product data, and images.

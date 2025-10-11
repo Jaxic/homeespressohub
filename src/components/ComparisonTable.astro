@@ -1,0 +1,57 @@
+---
+interface Machine {
+  name: string;
+  price: number;
+  rating: number;
+  category: string;
+  boilerType: string;
+  affiliateLink: string;
+}
+
+interface Props {
+  machines: Machine[];
+}
+
+const { machines } = Astro.props;
+---
+
+<div class="overflow-x-auto">
+  <table class="w-full">
+    <thead>
+      <tr>
+        <th>Machine</th>
+        <th>Price</th>
+        <th>Rating</th>
+        <th>Type</th>
+        <th>Boiler</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {machines.map(machine => (
+        <tr class="hover:bg-gray-50">
+          <td class="font-semibold">{machine.name}</td>
+          <td>${machine.price}</td>
+          <td>
+            <span class="flex items-center">
+              <span class="text-yellow-400 mr-1">★</span>
+              {machine.rating.toFixed(1)}
+            </span>
+          </td>
+          <td>{machine.category}</td>
+          <td class="text-sm">{machine.boilerType}</td>
+          <td>
+            <a 
+              href={machine.affiliateLink}
+              target="_blank"
+              rel="nofollow noopener"
+              class="text-caramel hover:text-espresso-brown font-semibold text-sm"
+            >
+              View Deal →
+            </a>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

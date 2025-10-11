@@ -1,0 +1,76 @@
+---
+const currentYear = new Date().getFullYear();
+
+const categories = [
+  { name: 'Buying Guides', href: '/blog?category=buying-guides' },
+  { name: 'Reviews', href: '/blog?category=reviews' },
+  { name: 'Comparisons', href: '/blog?category=comparisons' },
+  { name: 'How-To Guides', href: '/blog?category=how-to' },
+];
+
+const legalLinks = [
+  { name: 'About', href: '/about' },
+  { name: 'Privacy Policy', href: '/privacy' },
+  { name: 'Affiliate Disclosure', href: '/disclosure' },
+];
+---
+
+<footer class="bg-espresso-dark text-white mt-20">
+  <div class="container-custom py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- About Section -->
+      <div>
+        <h3 class="text-xl font-display font-bold text-latte-tan mb-4">
+          Home Espresso Hub
+        </h3>
+        <p class="text-gray-300 text-sm leading-relaxed">
+          Your trusted guide to finding the perfect home espresso machine. 
+          Honest reviews, practical advice, and beginner-friendly guides to 
+          help you make great coffee at home.
+        </p>
+      </div>
+
+      <!-- Categories -->
+      <div>
+        <h3 class="text-lg font-display font-bold mb-4">Categories</h3>
+        <ul class="space-y-2">
+          {categories.map(cat => (
+            <li>
+              <a 
+                href={cat.href}
+                class="text-gray-300 hover:text-latte-tan transition-colors text-sm no-underline"
+              >
+                {cat.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Legal Links -->
+      <div>
+        <h3 class="text-lg font-display font-bold mb-4">Information</h3>
+        <ul class="space-y-2">
+          {legalLinks.map(link => (
+            <li>
+              <a 
+                href={link.href}
+                class="text-gray-300 hover:text-latte-tan transition-colors text-sm no-underline"
+              >
+                {link.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
+      <p>© {currentYear} Home Espresso Hub. All rights reserved.</p>
+      <p class="mt-2">
+        As an Amazon Associate, we earn from qualifying purchases.
+      </p>
+    </div>
+  </div>
+</footer>
