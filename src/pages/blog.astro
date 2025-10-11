@@ -157,26 +157,28 @@ const categories = [...new Set(allPosts.map(post => post.data.category))];
 
     filterButtons.forEach(button => {
       button.addEventListener('click', () => {
-        const category = button.dataset.category;
-        filterPosts(category);
-        setActiveButton(button);
-        
-        // Update URL without page reload
-        const url = new URL(window.location.href);
-        if (category === 'all') {
-          url.searchParams.delete('category');
-        } else {
-          url.searchParams.set('category', category);
+        const category = (button as HTMLElement).dataset.category;
+        if (category) {
+          filterPosts(category);
+          setActiveButton(button);
+          
+          // Update URL without page reload
+          const url = new URL(window.location.href);
+          if (category === 'all') {
+            url.searchParams.delete('category');
+          } else {
+            url.searchParams.set('category', category);
+          }
+          window.history.pushState({}, '', url);
         }
-        window.history.pushState({}, '', url);
       });
     });
 
-    function filterPosts(category) {
+    function filterPosts(category: string) {
       let visibleCount = 0;
 
       blogPosts.forEach(post => {
-        const postCategory = post.dataset.category;
+        const postCategory = (post as HTMLElement).dataset.category;
         
         if (category === 'all' || postCategory === category) {
           post.classList.remove('hidden');
@@ -194,7 +196,7 @@ const categories = [...new Set(allPosts.map(post => post.data.category))];
       }
     }
 
-    function setActiveButton(activeButton) {
+    function setActiveButton(activeButton: Element) {
       filterButtons.forEach(btn => btn.classList.remove('active'));
       activeButton.classList.add('active');
     }

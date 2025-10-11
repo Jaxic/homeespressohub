@@ -6,9 +6,22 @@ interface Props {
   originalPrice?: number;
   image: string;
   rating: number;
-  affiliateLink: string;
-  category: string;
-  bestFor: string;
+  affiliateLink?: string;
+  amazonLink: string;
+  category: 'manual' | 'semi-automatic' | 'automatic' | 'super-automatic';
+  bestFor: 'beginners' | 'intermediate' | 'advanced' | 'all';
+  benefitDescription: string;
+  features: string[];
+  specs: {
+    boilerType: string;
+    pressure: string;
+    waterTank: string;
+    dimensions: string;
+    warranty: string;
+  };
+  priceRange: 'budget' | 'mid-range' | 'premium' | 'prosumer';
+  featured: boolean;
+  order?: number;
 }
 
 const { 
@@ -19,6 +32,7 @@ const {
   image, 
   rating, 
   affiliateLink,
+  amazonLink,
   category,
   bestFor 
 } = Astro.props;
@@ -82,7 +96,7 @@ const discount = originalPrice ? Math.round(((originalPrice - price) / originalP
     </div>
     
     <a 
-      href={affiliateLink}
+      href={affiliateLink || amazonLink}
       target="_blank"
       rel="nofollow noopener"
       class="btn-primary w-full block text-center no-underline"
