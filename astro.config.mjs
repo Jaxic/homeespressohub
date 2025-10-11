@@ -6,7 +6,7 @@ export default defineConfig({
   site: 'https://homeespressohub.com',
   output: 'static',
   build: {
-    inlineStylesheets: 'auto'
+    inlineStylesheets: 'always'
   },
   integrations: [
     tailwind(),

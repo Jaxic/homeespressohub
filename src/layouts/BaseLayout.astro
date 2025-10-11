@@ -1,4 +1,6 @@
 ---
+import '../styles/global.css';
+
 interface Props {
   title: string;
   description: string;
@@ -36,8 +38,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(image, Astro.site)} />
     
-    <!-- Global CSS -->
-    <link rel="stylesheet" href="/src/styles/global.css" />
   </head>
   <body>
     <slot />
