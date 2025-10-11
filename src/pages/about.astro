@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout 
+  title="About Home Espresso Hub - Our Mission & Story"
+  description="Learn about Home Espresso Hub and our mission to help coffee lovers find the perfect home espresso machine through honest reviews and practical advice."
+>
+  <Header />
+  
+  <main class="container-custom section-padding">
+    <article class="max-w-4xl mx-auto">
+      <h1 class="text-center mb-8">About Home Espresso Hub</h1>
+      
+      <div class="prose prose-lg max-w-none">
+        <p class="text-xl text-gray-700 mb-6">
+          We're coffee enthusiasts on a mission to help people make great espresso at home without the overwhelm.
+        </p>
+
+        <h2>Our Story</h2>
+        <p>
+          Home Espresso Hub was created by coffee lovers who remember how intimidating it was to buy our first espresso machines. 
+          With so many options, conflicting reviews, and technical jargon, making a confident decision felt impossible.
+        </p>
+
+        <p>
+          We started this site to be the resource we wished we had: honest reviews, practical advice, and beginner-friendly 
+          guidance that cuts through the marketing hype and coffee snobbery.
+        </p>
+
+        <h2>Our Approach</h2>
+        <ul>
+          <li><strong>Honest & Transparent:</strong> We share real pros and cons, never just the marketing highlights.</li>
+          <li><strong>Beginner-Focused:</strong> We explain technical terms and prioritize ease of use.</li>
+          <li><strong>Budget-Conscious:</strong> Great coffee doesn't require a $2,000 machine.</li>
+          <li><strong>Practical Testing:</strong> We focus on real-world use, not just spec sheets.</li>
+          <li><strong>No Gatekeeping:</strong> Everyone deserves access to good coffee at home.</li>
+        </ul>
+
+        <h2>How We Make Money</h2>
+        <p>
+          This site is supported through affiliate partnerships, primarily with Amazon Associates and specialty coffee 
+          equipment retailers. When you purchase through our links, we earn a small commission at no extra cost to you.
+        </p>
+
+        <p>
+          <strong>Important:</strong> Our affiliate relationships never influence our recommendations. We only recommend 
+          products we genuinely believe offer value, and we're always transparent about both strengths and weaknesses.
+        </p>
+
+        <p>
+          For complete details, please read our <a href="/disclosure">Affiliate Disclosure</a>.
+        </p>
+
+        <h2>Our Testing Process</h2>
+        <p>
+          We evaluate espresso machines based on:
+        </p>
+        <ul>
+          <li>Ease of use for beginners</li>
+          <li>Coffee quality and consistency</li>
+          <li>Build quality and durability</li>
+          <li>Value for money at each price point</li>
+          <li>Maintenance requirements</li>
+          <li>Customer support and warranty</li>
+        </ul>
+
+        <h2>Get in Touch</h2>
+        <p>
+          Have questions, suggestions, or feedback? We'd love to hear from you. While we can't respond to every message, 
+          we read everything and use your input to improve our content.
+        </p>
+
+        <div class="card mt-8 text-center">
+          <p class="text-lg mb-0">
+            Ready to find your perfect espresso machine?
+          </p>
+          <a href="/guide/complete-home-espresso-guide" class="btn-primary mt-4 inline-block">
+            Start with Our Complete Guide
+          </a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
