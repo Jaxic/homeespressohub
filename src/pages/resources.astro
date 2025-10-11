@@ -1,0 +1,220 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout 
+  title="Espresso Machine Resources & Tools - Home Espresso Hub"
+  description="Helpful resources including buying checklists, glossary of terms, and quick comparison tools for home espresso machines."
+>
+  <Header />
+  
+  <main class="container-custom section-padding">
+    <h1 class="text-center mb-12">Helpful Resources</h1>
+
+    <!-- Quick Comparison Tool -->
+    <section class="mb-16">
+      <div class="card max-w-4xl mx-auto">
+        <h2 class="text-2xl font-bold mb-6">Quick Comparison by Budget</h2>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr>
+                <th>Budget</th>
+                <th>Best For</th>
+                <th>Top Pick</th>
+                <th>Key Features</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-bold">Under $200</td>
+                <td>Beginners, tight budgets</td>
+                <td>Entry-level options</td>
+                <td>Basic espresso, learning</td>
+              </tr>
+              <tr>
+                <td class="font-bold">$200-$500</td>
+                <td>Most home users</td>
+                <td>Sweet spot</td>
+                <td>Good quality, features</td>
+              </tr>
+              <tr>
+                <td class="font-bold">$500-$1,000</td>
+                <td>Serious enthusiasts</td>
+                <td>Premium experience</td>
+                <td>Advanced control</td>
+              </tr>
+              <tr>
+                <td class="font-bold">$1,000+</td>
+                <td>Expert users</td>
+                <td>Prosumer grade</td>
+                <td>Commercial features</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-6 text-center">
+          <a href="/guide/complete-home-espresso-guide" class="btn-primary">
+            Read Detailed Comparisons
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Buying Checklist -->
+    <section class="mb-16">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold text-center mb-8">Espresso Machine Buying Checklist</h2>
+        
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="card">
+            <h3 class="text-xl font-bold mb-4">Before You Buy</h3>
+            <ul class="space-y-2">
+              <li class="flex items-start">
+                <span class="text-caramel mr-2">✓</span>
+                <span>Determine your budget (including grinder)</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-caramel mr-2">✓</span>
+                <span>Measure your counter space</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-caramel mr-2">✓</span>
+                <span>Consider your skill level</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-caramel mr-2">✓</span>
+                <span>Think about drink preferences (espresso vs milk drinks)</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-caramel mr-2">✓</span>
+                <span>Research maintenance requirements</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3 class="text-xl font-bold mb-4">Key Features to Consider</h3>
+            <ul class="space-y-2">
+              <li class="flex items-start">
+                <span class="text-caramel mr-2">✓</span>
+                <span>Machine type (manual, semi-auto, automatic)</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-caramel mr-2">✓</span>
+                <span>Boiler type and capacity</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-caramel mr-2">✓</span>
+                <span>Portafilter size (54mm vs 58mm)</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-caramel mr-2">✓</span>
+                <span>Milk frothing capability</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-caramel mr-2">✓</span>
+                <span>Temperature stability (PID control)</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Glossary -->
+    <section class="mb-16">
+      <div class="card max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold mb-8">Espresso Terminology Glossary</h2>
+        
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-lg font-bold text-caramel">Bar (Pressure)</h3>
+            <p class="text-gray-700">
+              Unit of pressure measurement. Proper espresso extraction requires 9 bars of pressure. Most machines 
+              advertise 15-20 bars, but 9 is what matters at the brew head.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-bold text-caramel">Portafilter</h3>
+            <p class="text-gray-700">
+              The handled filter basket that holds ground coffee. Common sizes are 54mm and 58mm (professional standard). 
+              Larger portafilters generally allow for more consistent extraction.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-bold text-caramel">PID Controller</h3>
+            <p class="text-gray-700">
+              Proportional-Integral-Derivative controller maintains precise water temperature, crucial for consistent 
+              espresso extraction. More common in machines $500+.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-bold text-caramel">Boiler Types</h3>
+            <p class="text-gray-700">
+              <strong>Single Boiler:</strong> One boiler for both brewing and steaming (must wait between functions).<br>
+              <strong>Heat Exchanger:</strong> Brew water passes through steam boiler for quick heating.<br>
+              <strong>Dual Boiler:</strong> Separate boilers for brewing and steaming (simultaneous operation).
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-bold text-caramel">Tamping</h3>
+            <p class="text-gray-700">
+              Compressing ground coffee in the portafilter to create even resistance for water flow. 
+              Consistent tamping pressure (about 30 lbs) is essential for quality espresso.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-bold text-caramel">Extraction Time</h3>
+            <p class="text-gray-700">
+              Time water flows through coffee grounds, typically 25-30 seconds for a double shot. 
+              Too fast = sour/weak, too slow = bitter/over-extracted.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-bold text-caramel">Crema</h3>
+            <p class="text-gray-700">
+              Golden-brown foam layer on top of espresso shot, created by emulsified oils. 
+              Indicator of proper extraction and fresh coffee, though not the only quality measure.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-bold text-caramel">Backflushing</h3>
+            <p class="text-gray-700">
+              Cleaning procedure that uses a blind basket to force water backward through the group head, 
+              removing coffee oil buildup. Required for machines with 3-way solenoid valves.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Links -->
+    <section>
+      <div class="card max-w-4xl mx-auto bg-espresso-dark text-white text-center">
+        <h2 class="text-3xl font-bold mb-6 text-white">Ready to Get Started?</h2>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/guide/complete-home-espresso-guide" class="btn-primary">
+            Read Complete Guide
+          </a>
+          <a href="/blog" class="btn-secondary bg-white hover:bg-latte-tan text-espresso-dark">
+            Browse Reviews
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
