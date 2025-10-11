@@ -1,0 +1,70 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "devCommand": "npm run dev",
+  "framework": "astro",
+  "installCommand": "npm install",
+  "build": {
+    "env": {
+      "NODE_VERSION": "18.20.8"
+    }
+  },
+  "functions": {
+    "src/pages/rss.xml.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "routes": [
+    {
+      "src": "/rss",
+      "dest": "/rss.xml",
+      "status": 301
+    },
+    {
+      "src": "/feed", 
+      "dest": "/rss.xml",
+      "status": 301
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*\\.(?:css|js))",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/images/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control", 
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection", 
+          "value": "1; mode=block"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ]
+}
