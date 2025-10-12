@@ -1,66 +1,65 @@
 ---
 name: "Gaggia Classic Pro"
 brand: "Gaggia"
-price: 449
-originalPrice: 499
-image: "/images/machines/gaggia-classic-pro.webp"
-amazonLink: "https://amazon.com/dp/B07KGZMK8V"
-affiliateLink: "https://amzn.to/3example2"
-features: 
-  - "Commercial-style group head"
-  - "58mm portafilter"
+price: 449.0
+originalPrice: 499.0
+image: "https://m.media-amazon.com/images/I/81pyys3loPL._AC_SL1500_.jpg"
+amazonLink: "https://www.amazon.com/Gaggia-RI9380-46-Espresso-Stainless/dp/B07RQ3NL76?tag=homeespressohub-20"
+affiliateLink: "https://www.amazon.com/Gaggia-RI9380-46-Espresso-Stainless/dp/B07RQ3NL76?tag=homeespressohub-20"
+features:
+  - "Commercial 58mm portafilter"
+  - "Brass boiler"
   - "3-way solenoid valve"
-  - "Stainless steel construction"
   - "Commercial steam wand"
+  - "Adjustable OPV"
+  - "Made in Italy"
+  - "Highly moddable"
 specs:
-  boilerType: "Aluminum"
-  pressure: "15 bar"
-  waterTank: "72 oz"
-  dimensions: "9.5\" x 11.5\" x 12.5\""
-  warranty: "2 years"
-benefitDescription: "The closest you can get to a commercial espresso machine at home. Built like a tank with professional-grade components that serious coffee enthusiasts love."
-rating: 4.7
+  boilerType: "Single boiler (brass)"
+  pressure: "15 bar (9 bar OPV)"
+  waterTank: "72 oz (2.1L) removable"
+  dimensions: "9.3\" x 13.4\" x 10.4\""
+  warranty: "1 year"
+benefitDescription: "Entry prosumer machine. Beloved for modding potential. 58mm portafilter. Brass boiler. 3-way solenoid for dry pucks."
+rating: 4.4
 category: "semi-automatic"
 priceRange: "mid-range"
 bestFor: "intermediate"
 featured: true
-order: 2
+order: 3
 ---
 
-The Gaggia Classic Pro is a legendary espresso machine that has been the choice of coffee enthusiasts for decades. Built with commercial-grade components in a home-friendly package, it's the perfect machine for those ready to take their espresso game to the next level.
+# Gaggia Classic Pro
+
+Entry prosumer machine. Beloved for modding potential. 58mm portafilter. Brass boiler. 3-way solenoid for dry pucks.
 
 ## Key Features
 
-- **Commercial-Style Group Head**: The same 58mm group head used in commercial machines
-- **3-Way Solenoid Valve**: Allows for proper backflushing and easier cleanup
-- **Stainless Steel Construction**: Built to last with premium materials
-- **Commercial Steam Wand**: Professional-grade steam wand for perfect milk texturing
-- **58mm Portafilter**: Industry-standard size with wide accessory compatibility
+- Commercial 58mm portafilter
+- Brass boiler
+- 3-way solenoid valve
+- Commercial steam wand
+- Adjustable OPV
+- Made in Italy
+- Highly moddable
 
-## Perfect For
+## Technical Specifications
 
-- Coffee enthusiasts ready to learn proper technique
-- People who want commercial-quality espresso at home
-- Those who plan to upgrade components over time
-- Anyone serious about milk steaming technique
+- **Boiler Type:** Single boiler (brass)
+- **Pressure:** 15 bar (9 bar OPV)
+- **Water Tank:** 72 oz (2.1L) removable
+- **Dimensions:** 9.3" x 13.4" x 10.4"
+- **Warranty:** 1 year
 
-## What Makes It Special
+## Who Is This Machine For?
 
-The Classic Pro is essentially a commercial machine scaled down for home use. It's the machine that many professional baristas started with, and it's built to the same standards as machines costing thousands more. The 58mm portafilter means you can use the same accessories as professional coffee shops.
+The Gaggia Classic Pro is a semi-automatic machine in the mid-range price range, making it ideal for intermediate users.
 
-## Learning Curve
+## Bottom Line
 
-This machine requires more skill than automatic options, but rewards you with:
-- Complete control over extraction variables
-- Professional-quality espresso shots
-- Skills that transfer to any espresso machine
-- The satisfaction of mastering a craft
+[Add your detailed review and recommendation here]
 
-## Maintenance
+**Current Price:** $449.0
+**Regular Price:** $499.0 (Save $50.00)
 
-- Daily group head cleaning
-- Weekly backflushing with cleaning tablets
-- Monthly descaling
-- Annual professional servicing recommended
-
-The Gaggia Classic Pro is an investment in your coffee education that will serve you for years to come.
+[Check Current Price on Amazon](https://www.amazon.com/Gaggia-RI9380-46-Espresso-Stainless/dp/B07RQ3NL76?tag=homeespressohub-20)
