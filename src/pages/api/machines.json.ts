@@ -10,24 +10,30 @@ export const GET: APIRoute = async () => {
       slug: machine.slug,
       id: machine.id,
       
-      // Machine details from front matter
-      title: machine.data.title,
+      // Machine details from front matter (using correct property names)
+      name: machine.data.name,
       brand: machine.data.brand,
-      model: machine.data.model,
+      price: machine.data.price,
+      originalPrice: machine.data.originalPrice,
       priceRange: machine.data.priceRange,
-      machineType: machine.data.machineType,
+      category: machine.data.category,
+      bestFor: machine.data.bestFor,
       
-      // Features
-      keyFeatures: machine.data.keyFeatures || [],
-      pros: machine.data.pros || [],
-      cons: machine.data.cons || [],
+      // Features and description
+      features: machine.data.features || [],
+      benefitDescription: machine.data.benefitDescription,
+      rating: machine.data.rating,
+      specs: machine.data.specs,
       
       // Links
-      affiliateLinks: machine.data.affiliateLinks || {},
+      image: machine.data.image,
+      amazonLink: machine.data.amazonLink,
+      affiliateLink: machine.data.affiliateLink,
       
       // Meta
       featured: machine.data.featured || false,
       order: machine.data.order || 999,
+      draft: machine.data.draft || false,
       
       // Additional useful info
       pageUrl: `/machines/${machine.slug}`,
@@ -56,7 +62,7 @@ export const GET: APIRoute = async () => {
     return new Response(
       JSON.stringify({
         success: false,
-        error: error.message
+        error: error instanceof Error ? error.message : 'Unknown error occurred'
       }),
       {
         status: 500,
