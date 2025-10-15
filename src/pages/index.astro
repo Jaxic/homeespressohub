@@ -4,6 +4,9 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { getCollection } from 'astro:content';
 
+// Google Fonts for editorial typography
+const googleFontsUrl = 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Montserrat:wght@300;400;500;600&display=swap';
+
 // Get featured machines
 const machines = await getCollection('espresso-machines', ({ data }) => data.featured);
 const featuredMachines = machines.sort((a, b) => (a.data.order || 99) - (b.data.order || 99)).slice(0, 3);
@@ -19,21 +22,25 @@ const recentPosts = blogPosts
   title="Best Espresso Machine for Home 2025 - Our #1 Pick After Testing 20+ Models"
   description="After testing 20+ espresso machines, we found the definitive best espresso machine for home use. See our top pick and why it's perfect for home brewing."
 >
+  <head>
+    <link href={googleFontsUrl} rel="preload" as="style">
+    <noscript><link href={googleFontsUrl} rel="stylesheet"></noscript>
+  </head>
   <Header />
   
-  <!-- Hero Section -->
-  <section class="relative bg-coffee-cream overflow-hidden">
-    <!-- Subtle background pattern -->
-    <div class="absolute inset-0 opacity-5">
-      <div class="absolute inset-0 bg-gradient-to-br from-espresso-dark to-caramel"></div>
-    </div>
+  <!-- Hero Section: Editorial Magazine Style -->
+  <section class="hero-editorial relative overflow-hidden">
+    <!-- Warm editorial background -->
+    <div class="absolute inset-0 bg-gradient-to-br from-editorial-beige to-editorial-cream"></div>
     
-    <div class="relative container-custom section-padding text-center">
-      <div class="max-w-4xl mx-auto">
-        <h1 class="text-espresso-dark mb-6 font-bold">
+    <!-- Asymmetrical content layout -->
+    <div class="relative container-custom min-h-[70vh] flex items-center">
+      <!-- Left-aligned content (offset) -->
+      <div class="hero-content-offset max-w-2xl">
+        <h1 class="hero-title text-editorial-brown mb-6">
           The Best Espresso Machine for Home Use in 2025
         </h1>
-        <p class="text-xl text-warm-charcoal leading-relaxed mb-8 max-w-3xl mx-auto">
+        <p class="hero-subtitle text-editorial-text leading-relaxed mb-8">
           After testing 20+ espresso machines, the <strong>Breville Barista Express</strong> is our definitive #1 pick for home brewing. 
           Here's why it beats every competitor for home use.
         </p>
@@ -54,14 +61,26 @@ const recentPosts = blogPosts
           </div>
         </div>
         
-        <!-- Primary CTA -->
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="/blog/best-espresso-machine-for-home-2025" class="btn-primary text-lg px-8 py-4">
+        <!-- Editorial CTA -->
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="/blog/best-espresso-machine-for-home-2025" class="btn-editorial-primary">
             See Our #1 Pick
           </a>
-          <a href="#winner-announcement" class="btn-secondary text-lg px-8 py-4">
+          <a href="#winner-announcement" class="btn-editorial-secondary">
             Why It's Best for Home
           </a>
+        </div>
+      </div>
+      
+      <!-- Asymmetrical hero image -->
+      <div class="hero-image-container absolute right-0 top-1/2 transform -translate-y-1/2 hidden lg:block">
+        <div class="hero-image-wrapper transform rotate-3">
+          <img 
+            src="/images/hero-espresso-pour.jpg" 
+            alt="Perfect espresso pour with golden crema" 
+            class="hero-image w-96 h-96 object-cover rounded-lg shadow-editorial"
+            loading="eager"
+          />
         </div>
       </div>
     </div>
@@ -113,16 +132,21 @@ const recentPosts = blogPosts
     </div>
   </section>
 
-  <!-- Winner Announcement Section -->
-  <section id="winner-announcement" class="section-padding bg-coffee-cream">
+  <!-- Featured Winner Section: Editorial Style -->
+  <section id="winner-announcement" class="featured-editorial section-padding">
     <div class="container-custom">
-      <div class="text-center mb-16">
-        <h2 class="text-espresso-dark mb-4">
-          Our #1 Winner: Best Espresso Machine for Home
-        </h2>
-        <p class="text-warm-charcoal max-w-3xl mx-auto text-lg">
-          After testing 20+ machines in real home environments, one clear winner emerged for home espresso brewing.
-        </p>
+      <!-- Asymmetrical header -->
+      <div class="editorial-header mb-16">
+        <div class="max-w-4xl">
+          <h2 class="section-title-editorial text-editorial-brown mb-6">
+            Our #1 Winner: Best Espresso Machine for Home
+          </h2>
+          <div class="editorial-pullquote">
+            <p class="pullquote-text text-editorial-gold">
+              "After testing 20+ machines in real home environments, one clear winner emerged for home espresso brewing."
+            </p>
+          </div>
+        </div>
       </div>
 
       <!-- Quick Comparison Table -->
@@ -182,22 +206,24 @@ const recentPosts = blogPosts
         </div>
       </div>
 
-      <!-- Detailed Featured Cards -->
-      <div class="space-y-8">
+      <!-- Editorial Featured Cards: Asymmetrical Grid -->
+      <div class="editorial-grid space-y-12">
         {featuredMachines.map((machine, index) => (
-          <article class="card">
+          <article class={`editorial-card ${index % 2 === 0 ? 'card-offset-right' : 'card-offset-left'}`}>
             <div class="grid md:grid-cols-4 gap-8 items-start">
-              <div class="text-center">
-                <img 
-                  src={machine.data.image} 
-                  alt={machine.data.name}
-                  class="w-full h-40 object-contain mb-4"
-                />
-                <div class="inline-flex items-center gap-1 bg-latte-cream px-3 py-1 rounded-full text-sm">
-                  <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+              <div class="editorial-image-container">
+                <div class="image-wrapper transform hover:scale-105 transition-transform duration-300">
+                  <img 
+                    src={machine.data.image} 
+                    alt={machine.data.name}
+                    class="w-full h-48 object-contain mb-4 rounded-lg"
+                  />
+                </div>
+                <div class="rating-editorial inline-flex items-center gap-1 bg-editorial-gold/20 px-4 py-2 rounded-full">
+                  <svg class="w-5 h-5 text-editorial-gold" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
-                  <span class="font-medium text-espresso-dark">{machine.data.rating}/5</span>
+                  <span class="font-medium text-editorial-brown">{machine.data.rating}/5</span>
                 </div>
               </div>
               <div class="md:col-span-3">
@@ -320,3 +346,237 @@ const recentPosts = blogPosts
 
   <Footer />
 </BaseLayout>
+
+<style>
+  /* Editorial Magazine Styling - Warm Tones */
+  :root {
+    --editorial-beige: #f4f1ea;
+    --editorial-cream: #faf8f3;
+    --editorial-brown: #8b5a2b;
+    --editorial-gold: #c9a27e;
+    --editorial-text: #4a3429;
+    --editorial-light: #f9f6f1;
+  }
+
+  /* Typography - Editorial */
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 900;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--editorial-text);
+  }
+
+  .section-title-editorial {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  /* Hero Section - Editorial */
+  .hero-editorial {
+    min-height: 70vh;
+    position: relative;
+  }
+
+  .hero-content-offset {
+    margin-left: clamp(2rem, 8vw, 8rem);
+    margin-top: clamp(3rem, 10vh, 6rem);
+  }
+
+  .hero-image-container {
+    right: clamp(2rem, 8vw, 6rem);
+    z-index: 10;
+  }
+
+  .hero-image-wrapper {
+    position: relative;
+  }
+
+  .hero-image-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    right: -1rem;
+    bottom: -1rem;
+    background: var(--editorial-gold);
+    border-radius: 0.5rem;
+    z-index: -1;
+    opacity: 0.3;
+  }
+
+  /* Editorial Buttons */
+  .btn-editorial-primary {
+    background: var(--editorial-brown);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(139, 90, 43, 0.2);
+  }
+
+  .btn-editorial-primary:hover {
+    background: var(--editorial-text);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 90, 43, 0.3);
+  }
+
+  .btn-editorial-secondary {
+    background: transparent;
+    color: var(--editorial-brown);
+    padding: 1rem 2rem;
+    border: 2px solid var(--editorial-gold);
+    border-radius: 0.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+  }
+
+  .btn-editorial-secondary:hover {
+    background: var(--editorial-gold);
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  /* Featured Section - Editorial */
+  .featured-editorial {
+    background: var(--editorial-light);
+    position: relative;
+  }
+
+  .editorial-header {
+    position: relative;
+  }
+
+  .editorial-pullquote {
+    margin-left: clamp(2rem, 10vw, 6rem);
+    position: relative;
+  }
+
+  .pullquote-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    font-style: italic;
+    line-height: 1.5;
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .pullquote-text::before {
+    content: '"';
+    font-size: 4rem;
+    color: var(--editorial-gold);
+    position: absolute;
+    left: -1rem;
+    top: -1rem;
+    font-family: 'Playfair Display', serif;
+  }
+
+  /* Editorial Cards - Asymmetrical */
+  .editorial-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--editorial-gold, 0.2);
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .editorial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.12);
+  }
+
+  .card-offset-right {
+    margin-left: clamp(1rem, 5vw, 3rem);
+  }
+
+  .card-offset-left {
+    margin-right: clamp(1rem, 5vw, 3rem);
+  }
+
+  .editorial-image-container {
+    position: relative;
+  }
+
+  .rating-editorial {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+  }
+
+  .shadow-editorial {
+    box-shadow: 0 8px 32px rgba(139, 90, 43, 0.15);
+  }
+
+  /* Background Patterns */
+  .editorial-beige {
+    background-color: var(--editorial-beige);
+  }
+
+  .editorial-cream {
+    background-color: var(--editorial-cream);
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 1024px) {
+    .hero-image-container {
+      display: none;
+    }
+    
+    .hero-content-offset {
+      margin-left: 2rem;
+      text-align: center;
+    }
+    
+    .card-offset-right,
+    .card-offset-left {
+      margin-left: 0;
+      margin-right: 0;
+    }
+    
+    .editorial-pullquote {
+      margin-left: 1rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-editorial {
+      min-height: 60vh;
+    }
+    
+    .hero-content-offset {
+      margin: 2rem 1rem;
+    }
+    
+    .editorial-header {
+      text-align: center;
+    }
+    
+    .editorial-pullquote {
+      margin-left: 0;
+      text-align: center;
+    }
+    
+    .pullquote-text::before {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+</style>
