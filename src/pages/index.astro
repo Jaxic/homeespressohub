@@ -5,7 +5,7 @@ import Footer from '../components/Footer.astro';
 import { getCollection } from 'astro:content';
 
 // Get featured machines
-const machines = await getCollection('machines', ({ data }) => data.featured);
+const machines = await getCollection('espresso-machines', ({ data }) => data.featured);
 const featuredMachines = machines.sort((a, b) => (a.data.order || 99) - (b.data.order || 99)).slice(0, 3);
 
 // Get recent blog posts
@@ -171,7 +171,7 @@ const recentPosts = blogPosts
                     </span>
                   </td>
                   <td class="p-4 text-center">
-                    <a href={`/machines/${machine.slug}`} class="btn-primary text-sm px-4 py-2">
+                    <a href={`/espresso-machines/${machine.slug}`} class="btn-primary text-sm px-4 py-2">
                       Read Review
                     </a>
                   </td>
@@ -207,7 +207,7 @@ const recentPosts = blogPosts
                       #{index + 1} Best for {machine.data.bestFor}
                     </span>
                     <h3 class="text-2xl font-bold text-espresso-dark mb-2">
-                      <a href={`/machines/${machine.slug}`} class="hover:text-caramel transition-colors">
+                      <a href={`/espresso-machines/${machine.slug}`} class="hover:text-caramel transition-colors">
                         {machine.data.name}
                       </a>
                     </h3>
@@ -235,7 +235,7 @@ const recentPosts = blogPosts
                 </div>
                 
                 <div class="flex flex-wrap gap-3">
-                  <a href={`/machines/${machine.slug}`} class="btn-primary">
+                  <a href={`/espresso-machines/${machine.slug}`} class="btn-primary">
                     Read Full Review
                   </a>
                   <a href={machine.data.amazonLink} target="_blank" rel="nofollow noopener" class="btn-secondary">
@@ -249,7 +249,7 @@ const recentPosts = blogPosts
       </div>
 
       <div class="mt-16 text-center">
-        <a href="/machines" class="btn-primary text-lg px-8 py-4">
+        <a href="/espresso-machines" class="btn-primary text-lg px-8 py-4">
           View All Machine Reviews
         </a>
       </div>

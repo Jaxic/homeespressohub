@@ -3,7 +3,7 @@ import type { APIRoute } from 'astro';
 
 export const GET: APIRoute = async () => {
   try {
-    const machines = await getCollection('machines');
+    const machines = await getCollection('espresso-machines');
     
     const machinesData = machines.map(machine => ({
       // Core identification
@@ -36,7 +36,7 @@ export const GET: APIRoute = async () => {
       draft: machine.data.draft || false,
       
       // Additional useful info
-      pageUrl: `/machines/${machine.slug}`,
+      pageUrl: `/espresso-machines/${machine.slug}`,
       lastModified: new Date().toISOString()
     }));
     

@@ -2,7 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 
 export interface Props {
-  machines: CollectionEntry<'machines'>[];
+  machines: CollectionEntry<'espresso-machines'>[];
   title?: string;
   showActions?: boolean;
   layout?: 'full' | 'compact';
@@ -157,7 +157,7 @@ const { machines, title = "Machine Comparison", showActions = true, layout = 'fu
               <td class="p-4">
                 <div class="space-y-2">
                   <a 
-                    href={`/machines/${machine.slug}`}
+                    href={`/espresso-machines/${machine.slug}`}
                     class="block w-full bg-espresso hover:bg-charcoal text-cream text-center py-2 rounded-lg font-semibold transition-colors text-sm"
                   >
                     View Details
@@ -239,7 +239,7 @@ const { machines, title = "Machine Comparison", showActions = true, layout = 'fu
         {showActions && (
           <div class="mt-4 space-y-2">
             <a 
-              href={`/machines/${machine.slug}`}
+              href={`/espresso-machines/${machine.slug}`}
               class="block w-full bg-espresso hover:bg-charcoal text-cream text-center py-2 rounded-lg font-semibold transition-colors text-sm"
             >
               View Details

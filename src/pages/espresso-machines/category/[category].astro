@@ -5,7 +5,7 @@ import MachineCard from '../../../components/MachineCard.astro';
 import ComparisonTable from '../../../components/ComparisonTable.astro';
 
 export async function getStaticPaths() {
-  const machines = await getCollection('machines');
+  const machines = await getCollection('espresso-machines');
   const categories = [...new Set(machines.map(machine => machine.data.category))];
   
   return categories.map(category => ({
@@ -276,7 +276,7 @@ const bestForOptions = [...new Set(machines.map(machine => machine.data.bestFor)
           Read Buying Guide
         </a>
         <a 
-          href="/machines"
+          href="/espresso-machines"
           class="border-2 border-espresso-dark hover:bg-espresso-dark hover:text-coffee-cream text-espresso-dark px-6 py-3 rounded-lg font-semibold transition-colors">
         >
           View All Categories

@@ -10,7 +10,7 @@ let selectedMachines: any[] = [];
 let allMachines: any[] = [];
 
 // Get all machines for fallback recommendations
-allMachines = await getCollection('machines', ({ data }) => !data.draft);
+allMachines = await getCollection('espresso-machines', ({ data }) => !data.draft);
 
 if (machineParams) {
   const machineSlugs = machineParams.split(',').filter(slug => slug.trim());

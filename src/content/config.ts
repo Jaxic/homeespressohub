@@ -37,8 +37,8 @@ const guidesCollection = defineCollection({
   }),
 });
 
-// Machines (products) collection schema
-const machinesCollection = defineCollection({
+// Espresso Machines collection schema
+const espressoMachinesCollection = defineCollection({
   type: 'content',
   schema: z.object({
     name: z.string(),
@@ -75,5 +75,5 @@ const machinesCollection = defineCollection({
 export const collections = {
   blog: blogCollection,
   guides: guidesCollection,
-  machines: machinesCollection,
+  'espresso-machines': espressoMachinesCollection,
 };

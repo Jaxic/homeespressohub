@@ -6,7 +6,7 @@ import ComparisonTable from '../../components/ComparisonTable.astro';
 import MachineCard from '../../components/MachineCard.astro';
 
 export async function getStaticPaths() {
-  const machines = await getCollection('machines');
+  const machines = await getCollection('espresso-machines');
   return machines.map((machine) => ({
     params: { slug: machine.slug },
     props: { machine, allMachines: machines },
@@ -14,8 +14,8 @@ export async function getStaticPaths() {
 }
 
 type Props = {
-  machine: CollectionEntry<'machines'>;
-  allMachines: CollectionEntry<'machines'>[];
+  machine: CollectionEntry<'espresso-machines'>;
+  allMachines: CollectionEntry<'espresso-machines'>[];
 };
 
 const { machine, allMachines } = Astro.props;
@@ -192,7 +192,7 @@ const sameCategoryMachines = allMachines
         
         <div class="text-center mt-6">
           <a 
-            href={`/machines/category/${data.category}`}
+            href={`/espresso-machines/category/${data.category}`}
             class="text-caramel hover:text-espresso font-semibold"
           >
             View All {data.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())} Machines →

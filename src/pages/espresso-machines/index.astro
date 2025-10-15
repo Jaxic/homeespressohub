@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import MachineCard from '../../components/MachineCard.astro';
 
-const machines = await getCollection('machines', ({ data }) => !data.draft);
+const machines = await getCollection('espresso-machines', ({ data }) => !data.draft);
 
 // Sort machines: featured first, then by order, then by rating
 const sortedMachines = machines.sort((a, b) => {

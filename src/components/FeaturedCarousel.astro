@@ -3,7 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import MachineCard from './MachineCard.astro';
 
 export interface Props {
-  machines: CollectionEntry<'machines'>[];
+  machines: CollectionEntry<'espresso-machines'>[];
   title?: string;
   subtitle?: string;
   autoplay?: boolean;
@@ -111,7 +111,7 @@ const carouselId = `carousel-${Math.random().toString(36).substring(2, 11)}`;
     <!-- View All Link -->
     <div class="text-center mt-12">
       <a 
-        href="/machines"
+        href="/espresso-machines"
         class="inline-flex items-center gap-2 bg-espresso hover:bg-charcoal text-cream px-8 py-4 rounded-lg font-semibold text-lg transition-colors duration-300"
       >
         View All Machines
