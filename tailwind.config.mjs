@@ -4,17 +4,21 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Editorial-first design palette (2-3 colors maximum)
-        'primary': '#FFFFFF',         // Pure white - dominant background (80%+ usage)
-        'text': '#2C2C2C',           // Deep charcoal - primary text color
-        'accent': '#3366CC',          // Single brand color - links/CTAs only
-        // Legacy colors maintained for gradual migration
+        // Coffee-themed brand palette for espresso site
+        'espresso-dark': '#3E2723',    // Headers, navigation, dark elements
+        'caramel': '#D4A574',          // CTAs, buttons, accent elements  
+        'latte-cream': '#E8DCC4',      // Highlight boxes, soft backgrounds
+        'coffee-cream': '#FDFAF6',     // Main background, cards
+        'warm-charcoal': '#2C2C2C',    // Body text, readable content
+        
+        // Legacy colors for gradual migration
+        'primary': '#FFFFFF',
+        'text': '#2C2C2C',
+        'accent': '#3366CC',
         'cream': '#F5F5DC',
         'espresso': '#3E2723',
-        'caramel': '#D4A574',
         'charcoal': '#2C2C2C',
         'latte': '#E8DCC4',
-        'espresso-dark': '#3E2723',
         'coffee-bean': '#2C2C2C',
         'latte-tan': '#E8DCC4',
       },

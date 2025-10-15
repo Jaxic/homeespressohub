@@ -21,66 +21,225 @@ const recentPosts = blogPosts
 >
   <Header />
   
-  <!-- Editorial Header -->
-  <header class="bg-primary border-b border-gray-100">
-    <div class="container-custom section-padding">
-      <div class="max-w-3xl">
-        <h1 class="text-text mb-6">
-          Home Espresso Machine Reviews & Buying Guide
+  <!-- Hero Section -->
+  <section class="relative bg-coffee-cream overflow-hidden">
+    <!-- Subtle background pattern -->
+    <div class="absolute inset-0 opacity-5">
+      <div class="absolute inset-0 bg-gradient-to-br from-espresso-dark to-caramel"></div>
+    </div>
+    
+    <div class="relative container-custom section-padding text-center">
+      <div class="max-w-4xl mx-auto">
+        <h1 class="text-espresso-dark mb-6 font-bold">
+          Find Your Perfect Home Espresso Machine in 2025
         </h1>
-        <p class="text-lg text-gray-600 leading-relaxed mb-8">
-          Independent testing and expert analysis to help you choose the right espresso machine. 
-          Our team has reviewed over 50 machines across every price range and brewing method.
+        <p class="text-xl text-warm-charcoal leading-relaxed mb-8 max-w-3xl mx-auto">
+          Expert research on 20+ machines to help you brew café-quality espresso at home. 
+          Independent testing, real user reviews, and honest recommendations.
         </p>
-        <nav class="flex gap-8 text-sm">
-          <a href="/guide/complete-home-espresso-guide" class="btn-primary">
+        
+        <!-- Trust Badges -->
+        <div class="grid md:grid-cols-3 gap-6 mb-10 max-w-2xl mx-auto">
+          <div class="highlight-box text-center py-4">
+            <div class="text-2xl font-bold text-espresso-dark mb-1">20+</div>
+            <div class="text-sm text-warm-charcoal">Machines Researched</div>
+          </div>
+          <div class="highlight-box text-center py-4">
+            <div class="text-2xl font-bold text-espresso-dark mb-1">500+</div>
+            <div class="text-sm text-warm-charcoal">Reviews Analyzed</div>
+          </div>
+          <div class="highlight-box text-center py-4">
+            <div class="text-2xl font-bold text-espresso-dark mb-1">Oct 2025</div>
+            <div class="text-sm text-warm-charcoal">Last Updated</div>
+          </div>
+        </div>
+        
+        <!-- Primary CTA -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="#featured-machines" class="btn-primary text-lg px-8 py-4">
+            View Our Top Picks
+          </a>
+          <a href="/guide/complete-home-espresso-guide" class="btn-secondary text-lg px-8 py-4">
             Complete Guide
           </a>
-          <a href="/blog" class="btn-secondary">
-            Latest Reviews
-          </a>
-        </nav>
+        </div>
       </div>
     </div>
-  </header>
+  </section>
+
+  <!-- Why Trust Us Section -->
+  <section class="bg-latte-cream border-y border-caramel/20">
+    <div class="container-custom py-12">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-2xl font-bold text-espresso-dark mb-6">Why Trust Home Espresso Hub?</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-6 text-sm">
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span class="text-warm-charcoal">20 machines thoroughly researched</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span class="text-warm-charcoal">500+ verified reviews analyzed</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span class="text-warm-charcoal">Expert insights from certified baristas</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span class="text-warm-charcoal">Regular updates (Oct 2025)</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span class="text-warm-charcoal">No manufacturer sponsorships</span>
+          </div>
+        </div>
+        <div class="mt-6">
+          <a href="/about/methodology" class="text-caramel hover:text-espresso-dark font-medium">
+            Learn Our Methodology →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Featured Reviews Section -->
-  <section class="section-padding bg-primary">
+  <section id="featured-machines" class="section-padding bg-coffee-cream">
     <div class="container-custom">
-      <div class="mb-16">
-        <h2 class="text-text mb-4">
-          Featured Reviews
+      <div class="text-center mb-16">
+        <h2 class="text-espresso-dark mb-4">
+          Our Top Picks at a Glance
         </h2>
-        <p class="text-gray-600 max-w-2xl">
-          Our top picks based on extensive testing across different categories and price points.
+        <p class="text-warm-charcoal max-w-3xl mx-auto text-lg">
+          After extensive testing and analysis, these are our top recommendations across different categories and price points.
         </p>
       </div>
 
+      <!-- Quick Comparison Table -->
+      <div class="bg-coffee-cream rounded-lg border border-latte-cream overflow-hidden mb-12">
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="bg-espresso-dark text-coffee-cream">
+                <th class="p-4 text-left font-semibold">Machine</th>
+                <th class="p-4 text-center font-semibold">Price</th>
+                <th class="p-4 text-center font-semibold">Rating</th>
+                <th class="p-4 text-center font-semibold">Best For</th>
+                <th class="p-4 text-center font-semibold">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {featuredMachines.map((machine, index) => (
+                <tr class={index % 2 === 0 ? 'bg-coffee-cream' : 'bg-latte-cream/30'}>
+                  <td class="p-4">
+                    <div class="flex items-center gap-3">
+                      <img 
+                        src={machine.data.image} 
+                        alt={machine.data.name}
+                        class="w-12 h-12 object-contain"
+                      />
+                      <div>
+                        <div class="font-medium text-espresso-dark">{machine.data.name}</div>
+                        <div class="text-sm text-warm-charcoal">{machine.data.brand}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="p-4 text-center">
+                    <span class="font-semibold text-espresso-dark">${machine.data.price}</span>
+                  </td>
+                  <td class="p-4 text-center">
+                    <div class="flex items-center justify-center gap-1">
+                      <span class="font-medium text-espresso-dark">{machine.data.rating}</span>
+                      <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    </div>
+                  </td>
+                  <td class="p-4 text-center">
+                    <span class="inline-block bg-latte-cream px-3 py-1 rounded-full text-sm font-medium text-espresso-dark capitalize">
+                      {machine.data.bestFor}
+                    </span>
+                  </td>
+                  <td class="p-4 text-center">
+                    <a href={`/machines/${machine.slug}`} class="btn-primary text-sm px-4 py-2">
+                      Read Review
+                    </a>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Detailed Featured Cards -->
       <div class="space-y-8">
-        {featuredMachines.map(machine => (
+        {featuredMachines.map((machine, index) => (
           <article class="card">
             <div class="grid md:grid-cols-4 gap-8 items-start">
-              <div>
+              <div class="text-center">
                 <img 
                   src={machine.data.image} 
                   alt={machine.data.name}
-                  class="w-full h-32 object-contain"
+                  class="w-full h-40 object-contain mb-4"
                 />
+                <div class="inline-flex items-center gap-1 bg-latte-cream px-3 py-1 rounded-full text-sm">
+                  <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <span class="font-medium text-espresso-dark">{machine.data.rating}/5</span>
+                </div>
               </div>
               <div class="md:col-span-3">
-                <h3 class="text-xl font-semibold text-text mb-2">
-                  <a href={`/machines/${machine.slug}`} class="hover:text-accent">
-                    {machine.data.name}
-                  </a>
-                </h3>
-                <p class="text-gray-600 mb-4 leading-relaxed">
+                <div class="flex items-start justify-between mb-3">
+                  <div>
+                    <span class="inline-block bg-caramel text-coffee-cream px-3 py-1 rounded-full text-sm font-medium mb-2">
+                      #{index + 1} Best for {machine.data.bestFor}
+                    </span>
+                    <h3 class="text-2xl font-bold text-espresso-dark mb-2">
+                      <a href={`/machines/${machine.slug}`} class="hover:text-caramel transition-colors">
+                        {machine.data.name}
+                      </a>
+                    </h3>
+                  </div>
+                  <div class="text-right">
+                    <div class="text-2xl font-bold text-espresso-dark">${machine.data.price}</div>
+                    <div class="text-sm text-warm-charcoal capitalize">{machine.data.category}</div>
+                  </div>
+                </div>
+                
+                <p class="text-warm-charcoal mb-4 leading-relaxed">
                   {machine.data.benefitDescription}
                 </p>
-                <div class="flex items-center gap-6 text-sm text-gray-500">
-                  <span>Rating: {machine.data.rating}/5</span>
-                  <span>${machine.data.price}</span>
-                  <a href={`/machines/${machine.slug}`} class="text-accent">
-                    Read full review
+                
+                <!-- Key Features -->
+                <div class="grid md:grid-cols-3 gap-2 mb-6">
+                  {machine.data.features.slice(0, 3).map((feature) => (
+                    <div class="flex items-center gap-2 text-sm">
+                      <svg class="w-4 h-4 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span class="text-warm-charcoal">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+                
+                <div class="flex flex-wrap gap-3">
+                  <a href={`/machines/${machine.slug}`} class="btn-primary">
+                    Read Full Review
+                  </a>
+                  <a href={machine.data.amazonLink} target="_blank" rel="nofollow noopener" class="btn-secondary">
+                    Check Price on Amazon
                   </a>
                 </div>
               </div>
@@ -90,49 +249,61 @@ const recentPosts = blogPosts
       </div>
 
       <div class="mt-16 text-center">
-        <a href="/machines" class="btn-primary">
-          View all machine reviews
+        <a href="/machines" class="btn-primary text-lg px-8 py-4">
+          View All Machine Reviews
         </a>
       </div>
     </div>
   </section>
 
   <!-- Latest Articles Section -->
-  <section class="section-padding bg-gray-50">
+  <section class="section-padding bg-latte-cream/30">
     <div class="container-custom">
-      <div class="mb-16">
-        <h2 class="text-text mb-4">
-          Latest Articles
+      <div class="text-center mb-16">
+        <h2 class="text-espresso-dark mb-4">
+          Latest Expert Guides
         </h2>
+        <p class="text-warm-charcoal max-w-3xl mx-auto text-lg">
+          Stay up-to-date with our latest research, buying guides, and expert insights into home espresso brewing.
+        </p>
       </div>
 
-      <div class="space-y-8">
+      <div class="grid md:grid-cols-3 gap-8">
         {recentPosts.map(post => (
-          <article class="bg-primary p-8 border-b border-gray-100">
-            <div class="max-w-3xl">
-              <h3 class="text-xl font-semibold text-text mb-3">
-                <a href={`/blog/${post.slug}`} class="hover:text-accent">
-                  {post.data.title}
-                </a>
-              </h3>
-              <p class="text-gray-600 mb-4 leading-relaxed">
-                {post.data.description}
-              </p>
-              <div class="flex items-center gap-4 text-sm text-gray-500">
-                <time>
-                  {new Date(post.data.pubDate).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </time>
-                <a href={`/blog/${post.slug}`} class="text-accent">
-                  Continue reading
-                </a>
-              </div>
+          <article class="card hover:shadow-lg transition-shadow">
+            <div class="mb-4">
+              <span class="inline-block bg-caramel text-coffee-cream px-3 py-1 rounded-full text-sm font-medium capitalize">
+                {post.data.category.replace('-', ' ')}
+              </span>
+            </div>
+            <h3 class="text-xl font-bold text-espresso-dark mb-3 leading-tight">
+              <a href={`/blog/${post.slug}`} class="hover:text-caramel transition-colors">
+                {post.data.title}
+              </a>
+            </h3>
+            <p class="text-warm-charcoal mb-4 leading-relaxed">
+              {post.data.description}
+            </p>
+            <div class="flex items-center justify-between text-sm">
+              <time class="text-warm-charcoal/70">
+                {new Date(post.data.pubDate).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </time>
+              <a href={`/blog/${post.slug}`} class="text-caramel hover:text-espresso-dark font-medium">
+                Read More →
+              </a>
             </div>
           </article>
         ))}
+      </div>
+
+      <div class="mt-12 text-center">
+        <a href="/blog" class="btn-secondary text-lg px-8 py-4">
+          View All Articles
+        </a>
       </div>
     </div>
   </section>
