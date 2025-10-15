@@ -5,7 +5,7 @@ pubDate: 2024-12-02
 updatedDate: 2024-12-02
 heroImage: "/images/blog/best-budget-espresso-machine.jpg"
 tags: ["budget espresso", "affordable coffee", "espresso machines", "value"]
-category: "reviews"
+category: "buying-guides"
 featured: false
 draft: false
 

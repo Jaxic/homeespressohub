@@ -5,7 +5,7 @@ pubDate: 2024-11-12
 updatedDate: 2024-11-12
 heroImage: "/images/blog/best-compact-espresso-machine.jpg"
 tags: ["compact espresso", "small spaces", "minimalist coffee", "space efficient"]
-category: "reviews"
+category: "buying-guides"
 featured: false
 draft: false
 

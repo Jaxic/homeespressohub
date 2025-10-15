@@ -5,7 +5,7 @@ pubDate: 2024-12-08
 updatedDate: 2024-12-08
 heroImage: "/images/blog/best-super-automatic-espresso-machine.jpg"
 tags: ["super automatic", "espresso machines", "coffee equipment", "luxury"]
-category: "reviews"
+category: "buying-guides"
 featured: false
 draft: false
 

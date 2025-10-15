@@ -5,7 +5,7 @@ pubDate: 2024-11-28
 updatedDate: 2024-11-28
 heroImage: "/images/blog/best-affordable-espresso-machine.jpg"
 tags: ["affordable espresso", "mid-range machines", "value coffee equipment", "budget friendly"]
-category: "reviews"
+category: "buying-guides"
 featured: false
 draft: false
 

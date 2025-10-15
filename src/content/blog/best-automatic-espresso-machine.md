@@ -5,7 +5,7 @@ pubDate: 2024-12-10
 updatedDate: 2024-12-10
 heroImage: "/images/blog/best-automatic-espresso-machine.jpg"
 tags: ["automatic espresso", "espresso machines", "coffee equipment", "convenience"]
-category: "reviews"
+category: "buying-guides"
 featured: false
 draft: false
 

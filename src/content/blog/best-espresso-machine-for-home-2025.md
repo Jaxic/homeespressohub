@@ -5,7 +5,7 @@ pubDate: 2024-12-15
 updatedDate: 2024-12-15
 heroImage: "/images/blog/best-espresso-machine-home-2025.jpg"
 tags: ["espresso machines", "home brewing", "coffee equipment", "buying guide", "2025"]
-category: "reviews"
+category: "buying-guides"
 featured: true
 draft: false
 

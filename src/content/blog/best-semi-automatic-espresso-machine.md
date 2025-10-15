@@ -5,7 +5,7 @@ pubDate: 2024-12-04
 updatedDate: 2024-12-04
 heroImage: "/images/blog/best-semi-automatic-espresso-machine.jpg"
 tags: ["semi automatic", "espresso machines", "coffee equipment", "brewing control"]
-category: "reviews"
+category: "buying-guides"
 featured: false
 draft: false
 

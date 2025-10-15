@@ -5,7 +5,7 @@ pubDate: 2024-11-24
 updatedDate: 2024-11-24
 heroImage: "/images/blog/best-espresso-machine-under-500.jpg"
 tags: ["espresso under 500", "entry level espresso", "budget coffee", "starter machines"]
-category: "reviews"
+category: "buying-guides"
 featured: false
 draft: false
 

@@ -5,7 +5,7 @@ pubDate: 2024-12-06
 updatedDate: 2024-12-06
 heroImage: "/images/blog/best-manual-espresso-machine.jpg"
 tags: ["manual espresso", "espresso machines", "craft coffee", "brewing technique"]
-category: "reviews"
+category: "buying-guides"
 featured: false
 draft: false
 

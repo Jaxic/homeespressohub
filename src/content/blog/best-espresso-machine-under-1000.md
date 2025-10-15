@@ -5,7 +5,7 @@ pubDate: 2024-11-26
 updatedDate: 2024-11-26
 heroImage: "/images/blog/best-espresso-machine-under-1000.jpg"
 tags: ["espresso under 1000", "mid-range espresso", "coffee equipment", "value machines"]
-category: "reviews"
+category: "buying-guides"
 featured: false
 draft: false
 

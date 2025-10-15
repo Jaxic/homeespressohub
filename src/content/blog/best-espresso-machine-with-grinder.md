@@ -5,7 +5,7 @@ pubDate: 2024-11-14
 updatedDate: 2024-11-14
 heroImage: "/images/blog/best-espresso-machine-grinder.jpg"
 tags: ["espresso with grinder", "all-in-one coffee", "built-in grinder", "space saving"]
-category: "reviews"
+category: "buying-guides"
 featured: false
 draft: false
 

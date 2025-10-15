@@ -5,7 +5,7 @@ pubDate: 2024-11-16
 updatedDate: 2024-11-16
 heroImage: "/images/blog/best-small-espresso-machine.jpg"
 tags: ["small espresso machines", "compact coffee", "space saving", "apartment living"]
-category: "reviews"
+category: "buying-guides"
 featured: false
 draft: false
 
