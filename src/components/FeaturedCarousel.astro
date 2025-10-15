@@ -1,0 +1,305 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import MachineCard from './MachineCard.astro';
+
+export interface Props {
+  machines: CollectionEntry<'machines'>[];
+  title?: string;
+  subtitle?: string;
+  autoplay?: boolean;
+  showDots?: boolean;
+  showArrows?: boolean;
+}
+
+const { 
+  machines, 
+  title = "Featured Espresso Machines", 
+  subtitle,
+  autoplay = true,
+  showDots = true,
+  showArrows = true
+} = Astro.props;
+
+// Generate unique ID for this carousel instance
+const carouselId = `carousel-${Math.random().toString(36).substring(2, 11)}`;
+---
+
+<section class="bg-gradient-to-br from-latte-tan to-cream py-16">
+  <div class="max-w-7xl mx-auto px-4">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-espresso mb-4">{title}</h2>
+      {subtitle && (
+        <p class="text-lg text-charcoal max-w-2xl mx-auto">{subtitle}</p>
+      )}
+    </div>
+
+    <!-- Carousel Container -->
+    <div class="relative">
+      <!-- Navigation Arrows -->
+      {showArrows && (
+        <>
+          <button 
+            class="carousel-prev absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-espresso hover:bg-charcoal text-cream p-3 rounded-full shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            data-carousel={carouselId}
+            aria-label="Previous products"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          
+          <button 
+            class="carousel-next absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-espresso hover:bg-charcoal text-cream p-3 rounded-full shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            data-carousel={carouselId}
+            aria-label="Next products"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </>
+      )}
+
+      <!-- Carousel Track -->
+      <div class="overflow-hidden mx-12">
+        <div 
+          class="carousel-track flex transition-transform duration-500 ease-in-out"
+          data-carousel-id={carouselId}
+          data-autoplay={autoplay}
+        >
+          {machines.map((machine, index) => (
+            <div class="carousel-slide flex-none w-full md:w-1/2 lg:w-1/3 px-4" data-slide={index}>
+              <MachineCard
+                name={machine.data.name}
+                brand={machine.data.brand}
+                price={machine.data.price}
+                originalPrice={machine.data.originalPrice}
+                image={machine.data.image}
+                amazonLink={machine.data.amazonLink}
+                affiliateLink={machine.data.affiliateLink}
+                features={machine.data.features}
+                rating={machine.data.rating}
+                category={machine.data.category}
+                priceRange={machine.data.priceRange}
+                bestFor={machine.data.bestFor}
+                benefitDescription={machine.data.benefitDescription}
+                slug={machine.slug}
+                featured={machine.data.featured}
+                layout="featured"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Dots Navigation -->
+      {showDots && (
+        <div class="flex justify-center mt-8 space-x-2">
+          {Array.from({ length: Math.ceil(machines.length / 3) }, (_, index) => (
+            <button 
+              class="carousel-dot w-3 h-3 rounded-full bg-coffee-bean/30 hover:bg-charcoal transition-colors duration-300"
+              data-carousel={carouselId}
+              data-slide-group={index}
+              aria-label={`Go to slide group ${index + 1}`}
+            ></button>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <!-- View All Link -->
+    <div class="text-center mt-12">
+      <a 
+        href="/machines"
+        class="inline-flex items-center gap-2 bg-espresso hover:bg-charcoal text-cream px-8 py-4 rounded-lg font-semibold text-lg transition-colors duration-300"
+      >
+        View All Machines
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Carousel JavaScript -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const carousels = document.querySelectorAll('[data-carousel-id]');
+    
+    carousels.forEach(carousel => {
+      const carouselId = carousel.getAttribute('data-carousel-id');
+      const autoplay = carousel.getAttribute('data-autoplay') === 'true';
+      const track = carousel;
+      const slides = track.querySelectorAll('.carousel-slide');
+      const prevBtn = document.querySelector(`[data-carousel="${carouselId}"].carousel-prev`);
+      const nextBtn = document.querySelector(`[data-carousel="${carouselId}"].carousel-next`);
+      const dots = document.querySelectorAll(`[data-carousel="${carouselId}"].carousel-dot`);
+      
+      let currentIndex = 0;
+      let slidesToShow = getSlidesToShow();
+      let maxIndex = Math.max(0, slides.length - slidesToShow);
+      let autoplayInterval: NodeJS.Timeout | null = null;
+      
+      function getSlidesToShow() {
+        const width = window.innerWidth;
+        if (width >= 1024) return 3; // lg and up
+        if (width >= 768) return 2;  // md
+        return 1; // sm and down
+      }
+      
+      function updateCarousel() {
+        const translateX = -currentIndex * (100 / slidesToShow);
+        (track as HTMLElement).style.transform = `translateX(${translateX}%)`;
+        
+        // Update navigation states
+        if (prevBtn) (prevBtn as HTMLButtonElement).disabled = currentIndex === 0;
+        if (nextBtn) (nextBtn as HTMLButtonElement).disabled = currentIndex >= maxIndex;
+        
+        // Update dots
+        dots.forEach((dot, index) => {
+          const slideGroup = Math.floor(currentIndex / slidesToShow);
+          dot.classList.toggle('bg-coffee-bean', index === slideGroup);
+          dot.classList.toggle('bg-coffee-bean/30', index !== slideGroup);
+        });
+      }
+      
+      function nextSlide() {
+        if (currentIndex < maxIndex) {
+          currentIndex++;
+        } else if (autoplay) {
+          currentIndex = 0; // Loop back to start for autoplay
+        }
+        updateCarousel();
+      }
+      
+      function prevSlide() {
+        if (currentIndex > 0) {
+          currentIndex--;
+          updateCarousel();
+        }
+      }
+      
+      function goToSlideGroup(groupIndex: number) {
+        currentIndex = Math.min(groupIndex * slidesToShow, maxIndex);
+        updateCarousel();
+        restartAutoplay();
+      }
+      
+      function startAutoplay() {
+        if (autoplay && !autoplayInterval) {
+          autoplayInterval = setInterval(nextSlide, 5000);
+        }
+      }
+      
+      function stopAutoplay() {
+        if (autoplayInterval) {
+          clearInterval(autoplayInterval);
+          autoplayInterval = null;
+        }
+      }
+      
+      function restartAutoplay() {
+        stopAutoplay();
+        startAutoplay();
+      }
+      
+      // Event listeners
+      if (prevBtn) prevBtn.addEventListener('click', () => {
+        prevSlide();
+        restartAutoplay();
+      });
+      
+      if (nextBtn) nextBtn.addEventListener('click', () => {
+        nextSlide();
+        restartAutoplay();
+      });
+      
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => goToSlideGroup(index));
+      });
+      
+      // Pause autoplay on hover
+      track.addEventListener('mouseenter', stopAutoplay);
+      track.addEventListener('mouseleave', startAutoplay);
+      
+      // Handle resize
+      window.addEventListener('resize', () => {
+        const newSlidesToShow = getSlidesToShow();
+        if (newSlidesToShow !== slidesToShow) {
+          slidesToShow = newSlidesToShow;
+          maxIndex = Math.max(0, slides.length - slidesToShow);
+          currentIndex = Math.min(currentIndex, maxIndex);
+          updateCarousel();
+        }
+      });
+      
+      // Touch/swipe support
+      let startX = 0;
+      let isDragging = false;
+      
+      track.addEventListener('touchstart', (e) => {
+        const touchEvent = e as TouchEvent;
+        startX = touchEvent.touches[0].clientX;
+        isDragging = true;
+        stopAutoplay();
+      });
+      
+      track.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+      });
+      
+      track.addEventListener('touchend', (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        
+        const touchEvent = e as TouchEvent;
+        const endX = touchEvent.changedTouches[0].clientX;
+        const diff = startX - endX;
+        
+        if (Math.abs(diff) > 50) {
+          if (diff > 0 && currentIndex < maxIndex) {
+            nextSlide();
+          } else if (diff < 0 && currentIndex > 0) {
+            prevSlide();
+          }
+        }
+        
+        startAutoplay();
+      });
+      
+      // Initialize
+      updateCarousel();
+      startAutoplay();
+    });
+  });
+</script>
+
+<style>
+  .carousel-slide {
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .carousel-track:hover .carousel-slide {
+    opacity: 0.7;
+  }
+  
+  .carousel-track:hover .carousel-slide:hover {
+    opacity: 1;
+  }
+  
+  /* Smooth scrolling for better performance */
+  .carousel-track {
+    will-change: transform;
+  }
+  
+  /* Focus styles for accessibility */
+  .carousel-prev:focus,
+  .carousel-next:focus,
+  .carousel-dot:focus {
+    outline: 2px solid #D4A574;
+    outline-offset: 2px;
+  }
+</style>

@@ -4,12 +4,19 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Coffee-themed color palette
-        'espresso-dark': '#2C1810',
-        'espresso-brown': '#8B4513',
-        'latte-tan': '#D4A574',
+        // Editorial-first design palette (2-3 colors maximum)
+        'primary': '#FFFFFF',         // Pure white - dominant background (80%+ usage)
+        'text': '#2C2C2C',           // Deep charcoal - primary text color
+        'accent': '#3366CC',          // Single brand color - links/CTAs only
+        // Legacy colors maintained for gradual migration
         'cream': '#F5F5DC',
-        'caramel': '#C67C4E',
+        'espresso': '#3E2723',
+        'caramel': '#D4A574',
+        'charcoal': '#2C2C2C',
+        'latte': '#E8DCC4',
+        'espresso-dark': '#3E2723',
+        'coffee-bean': '#2C2C2C',
+        'latte-tan': '#E8DCC4',
       },
       fontFamily: {
         display: ['Montserrat', 'sans-serif'],

@@ -1,0 +1,256 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MachineCard from '../../components/MachineCard.astro';
+
+const machines = await getCollection('machines', ({ data }) => !data.draft);
+
+// Sort machines: featured first, then by order, then by rating
+const sortedMachines = machines.sort((a, b) => {
+  if (a.data.featured && !b.data.featured) return -1;
+  if (!a.data.featured && b.data.featured) return 1;
+  if (a.data.order && b.data.order) return a.data.order - b.data.order;
+  if (a.data.order) return -1;
+  if (b.data.order) return 1;
+  return b.data.rating - a.data.rating;
+});
+
+// Group machines by category
+const categories = [...new Set(machines.map(machine => machine.data.category))];
+const priceRanges = [...new Set(machines.map(machine => machine.data.priceRange))];
+const bestForOptions = [...new Set(machines.map(machine => machine.data.bestFor))];
+---
+
+<BaseLayout 
+  title="Best Espresso Machines 2024 - Complete Buying Guide | Home Espresso Hub"
+  description="Discover the best home espresso machines with our comprehensive reviews and buying guide. From budget-friendly to premium models for every skill level."
+>
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-r from-espresso-dark to-coffee-bean text-cream py-16">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-6xl font-bold mb-6">
+        Best Espresso Machines 2024
+      </h1>
+      <p class="text-xl md:text-2xl text-cream/90 mb-8 max-w-3xl mx-auto">
+        Find the perfect espresso machine for your home with our expert reviews, detailed comparisons, and buying guides.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="#featured" class="bg-caramel hover:bg-caramel/90 text-espresso px-6 py-3 rounded-lg font-semibold transition-colors">
+          View Featured Picks
+        </a>
+        <a href="#all-machines" class="border-2 border-cream hover:bg-cream hover:text-espresso text-cream px-6 py-3 rounded-lg font-semibold transition-colors">
+          Browse All Machines
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <main class="max-w-7xl mx-auto px-4 py-12">
+    <!-- Quick Stats -->
+    <section class="mb-12">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-latte p-6 rounded-lg text-center">
+          <div class="text-3xl font-bold text-espresso">{machines.length}</div>
+          <div class="text-charcoal">Machines Reviewed</div>
+        </div>
+        <div class="bg-latte p-6 rounded-lg text-center">
+          <div class="text-3xl font-bold text-espresso">{categories.length}</div>
+          <div class="text-charcoal">Categories</div>
+        </div>
+        <div class="bg-latte p-6 rounded-lg text-center">
+          <div class="text-3xl font-bold text-espresso">{priceRanges.length}</div>
+          <div class="text-charcoal">Price Ranges</div>
+        </div>
+        <div class="bg-latte p-6 rounded-lg text-center">
+          <div class="text-3xl font-bold text-espresso">{bestForOptions.length}</div>
+          <div class="text-charcoal">Skill Levels</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="mb-12">
+      <div class="bg-cream p-6 rounded-lg">
+        <h2 class="text-2xl font-bold text-espresso mb-6">Filter Machines</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          <!-- Category Filter -->
+          <div>
+            <label for="category-filter" class="block text-sm font-semibold text-espresso mb-2">
+              Category
+            </label>
+            <select id="category-filter" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-caramel focus:border-transparent">
+              <option value="">All Categories</option>
+              {categories.map(category => (
+                <option value={category} class="capitalize">
+                  {category.replace('-', ' ')}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <!-- Price Range Filter -->
+          <div>
+            <label for="price-filter" class="block text-sm font-semibold text-espresso mb-2">
+              Price Range
+            </label>
+            <select id="price-filter" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-caramel focus:border-transparent">
+              <option value="">All Price Ranges</option>
+              {priceRanges.map(range => (
+                <option value={range} class="capitalize">
+                  {range.replace('-', ' ')}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <!-- Best For Filter -->
+          <div>
+            <label for="skill-filter" class="block text-sm font-semibold text-espresso mb-2">
+              Best For
+            </label>
+            <select id="skill-filter" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-caramel focus:border-transparent">
+              <option value="">All Skill Levels</option>
+              {bestForOptions.map(skill => (
+                <option value={skill} class="capitalize">
+                  {skill}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Machines -->
+    <section id="featured" class="mb-16">
+      <h2 class="text-3xl font-bold text-espresso mb-8 text-center">
+        🏆 Featured Recommendations
+      </h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {sortedMachines
+          .filter(machine => machine.data.featured)
+          .map((machine) => (
+            <MachineCard
+              name={machine.data.name}
+              brand={machine.data.brand}
+              price={machine.data.price}
+              originalPrice={machine.data.originalPrice}
+              image={machine.data.image}
+              amazonLink={machine.data.amazonLink}
+              affiliateLink={machine.data.affiliateLink}
+              features={machine.data.features}
+              rating={machine.data.rating}
+              category={machine.data.category}
+              priceRange={machine.data.priceRange}
+              bestFor={machine.data.bestFor}
+              benefitDescription={machine.data.benefitDescription}
+              slug={machine.slug}
+              featured={machine.data.featured}
+            />
+          ))}
+      </div>
+    </section>
+
+    <!-- All Machines -->
+    <section id="all-machines">
+      <h2 class="text-3xl font-bold text-espresso mb-8 text-center">
+        All Espresso Machines
+      </h2>
+      
+      <!-- Results Counter -->
+      <div class="mb-6">
+        <p class="text-charcoal">
+          Showing <span id="results-count">{machines.length}</span> machines
+        </p>
+      </div>
+
+      <div id="machines-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {sortedMachines.map((machine) => (
+          <div 
+            class="machine-card"
+            data-category={machine.data.category}
+            data-price-range={machine.data.priceRange}
+            data-skill={machine.data.bestFor}
+          >
+            <MachineCard
+              name={machine.data.name}
+              brand={machine.data.brand}
+              price={machine.data.price}
+              originalPrice={machine.data.originalPrice}
+              image={machine.data.image}
+              amazonLink={machine.data.amazonLink}
+              affiliateLink={machine.data.affiliateLink}
+              features={machine.data.features}
+              rating={machine.data.rating}
+              category={machine.data.category}
+              priceRange={machine.data.priceRange}
+              bestFor={machine.data.bestFor}
+              benefitDescription={machine.data.benefitDescription}
+              slug={machine.slug}
+              featured={machine.data.featured}
+            />
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="mt-16 bg-gradient-to-r from-caramel to-latte p-8 rounded-lg text-center">
+      <h3 class="text-2xl font-bold text-espresso mb-4">
+        Need Help Choosing?
+      </h3>
+      <p class="text-charcoal mb-6 max-w-2xl mx-auto">
+        Our comprehensive buying guide covers everything you need to know about choosing the perfect espresso machine for your needs and budget.
+      </p>
+      <a 
+        href="/pillars/ultimate-home-espresso-guide"
+        class="inline-block bg-espresso hover:bg-charcoal text-cream px-8 py-4 rounded-lg font-semibold text-lg transition-colors"
+      >
+        Read Our Complete Guide
+      </a>
+    </section>
+  </main>
+
+  <!-- Filter JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const categoryFilter = document.getElementById('category-filter') as HTMLSelectElement;
+      const priceFilter = document.getElementById('price-filter') as HTMLSelectElement;
+      const skillFilter = document.getElementById('skill-filter') as HTMLSelectElement;
+      const machineCards = document.querySelectorAll('.machine-card');
+      const resultsCount = document.getElementById('results-count');
+
+      function filterMachines() {
+        const selectedCategory = categoryFilter.value;
+        const selectedPrice = priceFilter.value;
+        const selectedSkill = skillFilter.value;
+        
+        let visibleCount = 0;
+
+        machineCards.forEach((card) => {
+          const cardCategory = (card as HTMLElement).dataset.category;
+          const cardPrice = (card as HTMLElement).dataset.priceRange;
+          const cardSkill = (card as HTMLElement).dataset.skill;
+          
+          const categoryMatch = !selectedCategory || cardCategory === selectedCategory;
+          const priceMatch = !selectedPrice || cardPrice === selectedPrice;
+          const skillMatch = !selectedSkill || cardSkill === selectedSkill;
+          
+          const shouldShow = categoryMatch && priceMatch && skillMatch;
+          
+          (card as HTMLElement).style.display = shouldShow ? 'block' : 'none';
+          
+          if (shouldShow) visibleCount++;
+        });
+        
+        if (resultsCount) {
+          resultsCount.textContent = visibleCount.toString();
+        }
+      }
+
+      categoryFilter?.addEventListener('change', filterMachines);
+      priceFilter?.addEventListener('change', filterMachines);
+      skillFilter?.addEventListener('change', filterMachines);
+    });
+  </script>
+</BaseLayout>

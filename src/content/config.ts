@@ -68,6 +68,7 @@ const machinesCollection = defineCollection({
     bestFor: z.enum(['beginners', 'intermediate', 'advanced', 'all']),
     featured: z.boolean().default(false),
     order: z.number().optional(),
+    draft: z.boolean().default(false),
   }),
 });
 

@@ -1,0 +1,397 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import MachineCard from '../../../components/MachineCard.astro';
+import ComparisonTable from '../../../components/ComparisonTable.astro';
+
+export async function getStaticPaths() {
+  const machines = await getCollection('machines');
+  const categories = [...new Set(machines.map(machine => machine.data.category))];
+  
+  return categories.map(category => ({
+    params: { category },
+    props: { 
+      category,
+      machines: machines.filter(machine => machine.data.category === category)
+    }
+  }));
+}
+
+const { category, machines } = Astro.props;
+
+// Sort machines by featured, order, then rating
+const sortedMachines = machines.sort((a, b) => {
+  if (a.data.featured && !b.data.featured) return -1;
+  if (!a.data.featured && b.data.featured) return 1;
+  if (a.data.order && b.data.order) return a.data.order - b.data.order;
+  if (a.data.order) return -1;
+  if (b.data.order) return 1;
+  return b.data.rating - a.data.rating;
+});
+
+const featuredMachines = sortedMachines.filter(machine => machine.data.featured);
+const categoryName = category.replace('-', ' ');
+const categoryNameCapitalized = categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
+
+// Get price ranges and skill levels for this category
+const priceRanges = [...new Set(machines.map(machine => machine.data.priceRange))];
+const bestForOptions = [...new Set(machines.map(machine => machine.data.bestFor))];
+---
+
+<BaseLayout 
+  title={`Best ${categoryNameCapitalized} Espresso Machines 2024 | Home Espresso Hub`}
+  description={`Discover the best ${categoryName} espresso machines for your home. Expert reviews, comparisons, and buying guides for ${categoryName} coffee makers.`}
+>
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-r from-espresso-dark to-coffee-bean text-cream py-16">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-6xl font-bold mb-6">
+        Best {categoryNameCapitalized} Espresso Machines
+      </h1>
+      <p class="text-xl md:text-2xl text-cream/90 mb-8 max-w-3xl mx-auto">
+        {category === 'semi-automatic' ? 'Perfect balance of control and convenience for home baristas who want hands-on espresso brewing.' :
+         category === 'automatic' ? 'One-touch convenience with programmable settings for consistent, quality espresso every time.' :
+         category === 'super-automatic' ? 'Ultimate convenience with built-in grinders and milk frothers for café-quality drinks at the touch of a button.' :
+         category === 'manual' ? 'Traditional espresso brewing for purists who want complete control over every aspect of the process.' :
+         `Professional-grade ${categoryName} espresso machines for serious home coffee enthusiasts.`}
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="#featured" class="bg-caramel hover:bg-caramel/90 text-espresso px-6 py-3 rounded-lg font-semibold transition-colors">
+          View Top Picks
+        </a>
+        <a href="#comparison" class="border-2 border-cream hover:bg-cream hover:text-espresso text-cream px-6 py-3 rounded-lg font-semibold transition-colors">
+          Compare Machines
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <main class="max-w-7xl mx-auto px-4 py-12">
+    <!-- Category Stats -->
+    <section class="mb-12">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-latte p-6 rounded-lg text-center">
+          <div class="text-3xl font-bold text-espresso">{machines.length}</div>
+          <div class="text-charcoal">Machines</div>
+        </div>
+        <div class="bg-latte p-6 rounded-lg text-center">
+          <div class="text-3xl font-bold text-espresso">{featuredMachines.length}</div>
+          <div class="text-charcoal">Featured</div>
+        </div>
+        <div class="bg-latte p-6 rounded-lg text-center">
+          <div class="text-3xl font-bold text-espresso">{priceRanges.length}</div>
+          <div class="text-charcoal">Price Ranges</div>
+        </div>
+        <div class="bg-latte p-6 rounded-lg text-center">
+          <div class="text-3xl font-bold text-espresso">
+            {Math.round(machines.reduce((sum, m) => sum + m.data.rating, 0) / machines.length * 10) / 10}
+          </div>
+          <div class="text-charcoal">Avg Rating</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Advanced Filters -->
+    <section class="mb-12">
+      <div class="bg-cream p-6 rounded-lg">
+        <h2 class="text-2xl font-bold text-espresso mb-6">Filter {categoryNameCapitalized} Machines</h2>
+        <div class="grid md:grid-cols-4 gap-4">
+          <!-- Price Range Filter -->
+          <div>
+            <label for="price-filter" class="block text-sm font-semibold text-espresso mb-2">
+              Price Range
+            </label>
+            <select id="price-filter" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-caramel focus:border-transparent">
+              <option value="">All Prices</option>
+              {priceRanges.map(range => (
+                <option value={range} class="capitalize">
+                  {range.replace('-', ' ')}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <!-- Best For Filter -->
+          <div>
+            <label for="skill-filter" class="block text-sm font-semibold text-espresso mb-2">
+              Best For
+            </label>
+            <select id="skill-filter" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-caramel focus:border-transparent">
+              <option value="">All Users</option>
+              {bestForOptions.map(skill => (
+                <option value={skill} class="capitalize">
+                  {skill}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <!-- Rating Filter -->
+          <div>
+            <label for="rating-filter" class="block text-sm font-semibold text-espresso mb-2">
+              Min Rating
+            </label>
+            <select id="rating-filter" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-caramel focus:border-transparent">
+              <option value="">Any Rating</option>
+              <option value="4.5">4.5+ Stars</option>
+              <option value="4.0">4.0+ Stars</option>
+              <option value="3.5">3.5+ Stars</option>
+              <option value="3.0">3.0+ Stars</option>
+            </select>
+          </div>
+
+          <!-- Sort Options -->
+          <div>
+            <label for="sort-filter" class="block text-sm font-semibold text-espresso mb-2">
+              Sort By
+            </label>
+            <select id="sort-filter" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-caramel focus:border-transparent">
+              <option value="featured">Featured First</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Highest Rated</option>
+              <option value="name">Name A-Z</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Clear Filters Button -->
+        <div class="mt-4">
+          <button id="clear-filters" class="text-caramel hover:text-espresso font-medium transition-colors">
+            Clear All Filters
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Section -->
+    {featuredMachines.length > 0 && (
+      <section id="featured" class="mb-16">
+        <h2 class="text-3xl font-bold text-espresso mb-8 text-center">
+          🏆 Top {categoryNameCapitalized} Picks
+        </h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {featuredMachines.map((machine) => (
+            <MachineCard
+              name={machine.data.name}
+              brand={machine.data.brand}
+              price={machine.data.price}
+              originalPrice={machine.data.originalPrice}
+              image={machine.data.image}
+              amazonLink={machine.data.amazonLink}
+              affiliateLink={machine.data.affiliateLink}
+              features={machine.data.features}
+              rating={machine.data.rating}
+              category={machine.data.category}
+              priceRange={machine.data.priceRange}
+              bestFor={machine.data.bestFor}
+              benefitDescription={machine.data.benefitDescription}
+              slug={machine.slug}
+              featured={machine.data.featured}
+            />
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Comparison Table -->
+    <section id="comparison" class="mb-16">
+      <ComparisonTable 
+        machines={sortedMachines.slice(0, 4)} 
+        title={`${categoryNameCapitalized} Machine Comparison`}
+        layout="full"
+      />
+    </section>
+
+    <!-- All Machines Grid -->
+    <section id="all-machines">
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-3xl font-bold text-espresso">
+          All {categoryNameCapitalized} Machines
+        </h2>
+        <div class="flex items-center gap-4">
+          <span class="text-charcoal">
+            Showing <span id="results-count">{machines.length}</span> machines
+          </span>
+          <div class="flex gap-2">
+            <button id="grid-view" class="p-2 bg-espresso text-cream rounded hover:bg-charcoal transition-colors">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 8a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H4a1 1 0 01-1-1v-4zm8-8a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V4zm0 8a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <button id="list-view" class="p-2 bg-gray-200 text-gray-600 rounded hover:bg-gray-300 transition-colors">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="machines-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {sortedMachines.map((machine) => (
+          <div 
+            class="machine-card"
+            data-price-range={machine.data.priceRange}
+            data-skill={machine.data.bestFor}
+            data-rating={machine.data.rating}
+            data-price={machine.data.price}
+            data-name={machine.data.name}
+          >
+            <MachineCard
+              name={machine.data.name}
+              brand={machine.data.brand}
+              price={machine.data.price}
+              originalPrice={machine.data.originalPrice}
+              image={machine.data.image}
+              amazonLink={machine.data.amazonLink}
+              affiliateLink={machine.data.affiliateLink}
+              features={machine.data.features}
+              rating={machine.data.rating}
+              category={machine.data.category}
+              priceRange={machine.data.priceRange}
+              bestFor={machine.data.bestFor}
+              benefitDescription={machine.data.benefitDescription}
+              slug={machine.slug}
+              featured={machine.data.featured}
+            />
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="mt-16 bg-gradient-to-r from-caramel to-latte p-8 rounded-lg text-center">
+      <h3 class="text-2xl font-bold text-espresso mb-4">
+        Ready to Choose Your Perfect {categoryNameCapitalized} Machine?
+      </h3>
+      <p class="text-charcoal mb-6 max-w-2xl mx-auto">
+        Still unsure? Check out our comprehensive buying guide or compare different categories to find your ideal espresso machine.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a 
+          href="/guide/complete-home-espresso-guide"
+          class="bg-espresso hover:bg-charcoal text-cream px-6 py-3 rounded-lg font-semibold transition-colors"
+        >
+          Read Buying Guide
+        </a>
+        <a 
+          href="/machines"
+          class="border-2 border-espresso-dark hover:bg-espresso hover:text-cream text-espresso px-6 py-3 rounded-lg font-semibold transition-colors"
+        >
+          View All Categories
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Filter & Sort JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const priceFilter = document.getElementById('price-filter') as HTMLSelectElement;
+      const skillFilter = document.getElementById('skill-filter') as HTMLSelectElement;
+      const ratingFilter = document.getElementById('rating-filter') as HTMLSelectElement;
+      const sortFilter = document.getElementById('sort-filter') as HTMLSelectElement;
+      const clearFiltersBtn = document.getElementById('clear-filters');
+      const machineCards = document.querySelectorAll('.machine-card');
+      const resultsCount = document.getElementById('results-count');
+      const gridViewBtn = document.getElementById('grid-view');
+      const listViewBtn = document.getElementById('list-view');
+      const machinesGrid = document.getElementById('machines-grid');
+
+      let filteredMachines: Element[] = Array.from(machineCards);
+
+      function filterAndSort() {
+        const selectedPrice = priceFilter.value;
+        const selectedSkill = skillFilter.value;
+        const minRating = parseFloat(ratingFilter.value) || 0;
+        const sortBy = sortFilter.value;
+        
+        // Filter machines
+        filteredMachines = Array.from(machineCards).filter((card) => {
+          const cardPrice = (card as HTMLElement).dataset.priceRange;
+          const cardSkill = (card as HTMLElement).dataset.skill;
+          const cardRating = parseFloat((card as HTMLElement).dataset.rating || '0');
+          
+          const priceMatch = !selectedPrice || cardPrice === selectedPrice;
+          const skillMatch = !selectedSkill || cardSkill === selectedSkill;
+          const ratingMatch = cardRating >= minRating;
+          
+          return priceMatch && skillMatch && ratingMatch;
+        });
+
+        // Sort machines
+        filteredMachines.sort((a, b) => {
+          const aElement = a as HTMLElement;
+          const bElement = b as HTMLElement;
+          
+          switch (sortBy) {
+            case 'price-low':
+              return parseFloat(aElement.dataset.price || '0') - parseFloat(bElement.dataset.price || '0');
+            case 'price-high':
+              return parseFloat(bElement.dataset.price || '0') - parseFloat(aElement.dataset.price || '0');
+            case 'rating':
+              return parseFloat(bElement.dataset.rating || '0') - parseFloat(aElement.dataset.rating || '0');
+            case 'name':
+              return (aElement.dataset.name || '').localeCompare(bElement.dataset.name || '');
+            default: // 'featured'
+              // Keep original order for featured sorting
+              return 0;
+          }
+        });
+
+        // Update display
+        machineCards.forEach(card => {
+          (card as HTMLElement).style.display = 'none';
+        });
+
+        filteredMachines.forEach((card, index) => {
+          (card as HTMLElement).style.display = 'block';
+          (card as HTMLElement).style.order = index.toString();
+        });
+        
+        if (resultsCount) {
+          resultsCount.textContent = filteredMachines.length.toString();
+        }
+      }
+
+      function clearFilters() {
+        priceFilter.value = '';
+        skillFilter.value = '';
+        ratingFilter.value = '';
+        sortFilter.value = 'featured';
+        filterAndSort();
+      }
+
+      function toggleView(viewType: 'grid' | 'list') {
+        if (viewType === 'list') {
+          machinesGrid?.classList.remove('grid', 'md:grid-cols-2', 'lg:grid-cols-3');
+          machinesGrid?.classList.add('space-y-4');
+          gridViewBtn?.classList.remove('bg-espresso', 'text-cream');
+          gridViewBtn?.classList.add('bg-gray-200', 'text-gray-600');
+          listViewBtn?.classList.remove('bg-gray-200', 'text-gray-600');
+          listViewBtn?.classList.add('bg-espresso', 'text-cream');
+        } else {
+          machinesGrid?.classList.add('grid', 'md:grid-cols-2', 'lg:grid-cols-3');
+          machinesGrid?.classList.remove('space-y-4');
+          listViewBtn?.classList.remove('bg-espresso', 'text-cream');
+          listViewBtn?.classList.add('bg-gray-200', 'text-gray-600');
+          gridViewBtn?.classList.remove('bg-gray-200', 'text-gray-600');
+          gridViewBtn?.classList.add('bg-espresso', 'text-cream');
+        }
+      }
+
+      // Event listeners
+      priceFilter?.addEventListener('change', filterAndSort);
+      skillFilter?.addEventListener('change', filterAndSort);
+      ratingFilter?.addEventListener('change', filterAndSort);
+      sortFilter?.addEventListener('change', filterAndSort);
+      clearFiltersBtn?.addEventListener('click', clearFilters);
+      gridViewBtn?.addEventListener('click', () => toggleView('grid'));
+      listViewBtn?.addEventListener('click', () => toggleView('list'));
+
+      // Initialize
+      filterAndSort();
+    });
+  </script>
+</BaseLayout>

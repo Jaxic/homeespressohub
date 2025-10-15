@@ -2,7 +2,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import ProductCard from '../components/ProductCard.astro';
 import { getCollection } from 'astro:content';
 
 // Get featured machines
@@ -22,98 +21,116 @@ const recentPosts = blogPosts
 >
   <Header />
   
-  <!-- Hero Scroll Container -->
-  <div class="hero-scroll-container">
-    <!-- Hero Section -->
-    <section class="hero-section text-white relative overflow-hidden">
-      <!-- Full-width background image -->
-      <div class="hero-background-image"></div>
-      <div class="hero-overlay"></div>
-      
-      <!-- Content over the image -->
-      <div class="hero-content-wrapper">
-        <div class="hero-title-section">
-          <h1 class="hero-title">
-            Unleash the power of<br />
-            <span class="hero-title-large">
-              Perfect Espresso
-            </span>
-          </h1>
-          <p class="hero-subtitle">
-            Expert reviews, honest comparisons, and beginner-friendly guides to help you make café-quality coffee at home.
-          </p>
-          <div class="hero-buttons">
-            <a href="/guide/complete-home-espresso-guide" class="btn-primary text-lg">
-              Read the Complete Guide
-            </a>
-            <a href="/blog" class="btn-secondary text-lg bg-white hover:bg-latte-tan">
-              Browse Reviews
-            </a>
-          </div>
-        </div>
+  <!-- Editorial Header -->
+  <header class="bg-primary border-b border-gray-100">
+    <div class="container-custom section-padding">
+      <div class="max-w-3xl">
+        <h1 class="text-text mb-6">
+          Home Espresso Machine Reviews & Buying Guide
+        </h1>
+        <p class="text-lg text-gray-600 leading-relaxed mb-8">
+          Independent testing and expert analysis to help you choose the right espresso machine. 
+          Our team has reviewed over 50 machines across every price range and brewing method.
+        </p>
+        <nav class="flex gap-8 text-sm">
+          <a href="/guide/complete-home-espresso-guide" class="btn-primary">
+            Complete Guide
+          </a>
+          <a href="/blog" class="btn-secondary">
+            Latest Reviews
+          </a>
+        </nav>
       </div>
-    </section>
-  </div>
+    </div>
+  </header>
 
-  <!-- Featured Machines Section -->
-  <section class="section-padding bg-white">
+  <!-- Featured Reviews Section -->
+  <section class="section-padding bg-primary">
     <div class="container-custom">
-      <div class="text-center mb-12">
-        <h2 class="text-4xl font-display font-bold text-espresso-dark mb-4">
-          Top Recommended Machines
+      <div class="mb-16">
+        <h2 class="text-text mb-4">
+          Featured Reviews
         </h2>
-        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-          Our carefully selected picks for different budgets and skill levels.
+        <p class="text-gray-600 max-w-2xl">
+          Our top picks based on extensive testing across different categories and price points.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="space-y-8">
         {featuredMachines.map(machine => (
-          <ProductCard {...machine.data} />
+          <article class="card">
+            <div class="grid md:grid-cols-4 gap-8 items-start">
+              <div>
+                <img 
+                  src={machine.data.image} 
+                  alt={machine.data.name}
+                  class="w-full h-32 object-contain"
+                />
+              </div>
+              <div class="md:col-span-3">
+                <h3 class="text-xl font-semibold text-text mb-2">
+                  <a href={`/machines/${machine.slug}`} class="hover:text-accent">
+                    {machine.data.name}
+                  </a>
+                </h3>
+                <p class="text-gray-600 mb-4 leading-relaxed">
+                  {machine.data.benefitDescription}
+                </p>
+                <div class="flex items-center gap-6 text-sm text-gray-500">
+                  <span>Rating: {machine.data.rating}/5</span>
+                  <span>${machine.data.price}</span>
+                  <a href={`/machines/${machine.slug}`} class="text-accent">
+                    Read full review
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
         ))}
       </div>
 
-      <div class="text-center mt-12">
-        <a href="/blog" class="btn-primary">
-          See All Reviews
+      <div class="mt-16 text-center">
+        <a href="/machines" class="btn-primary">
+          View all machine reviews
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Recent Posts Section -->
-  <section class="section-padding bg-cream">
+  <!-- Latest Articles Section -->
+  <section class="section-padding bg-gray-50">
     <div class="container-custom">
-      <div class="text-center mb-12">
-        <h2 class="text-4xl font-display font-bold text-espresso-dark mb-4">
-          Latest Guides & Reviews
+      <div class="mb-16">
+        <h2 class="text-text mb-4">
+          Latest Articles
         </h2>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="space-y-8">
         {recentPosts.map(post => (
-          <article class="card">
-            {post.data.heroImage && (
-              <img 
-                src={post.data.heroImage}
-                alt={post.data.title}
-                class="w-full h-48 object-cover rounded-lg mb-4"
-              />
-            )}
-            <h3 class="text-xl font-bold text-espresso-dark mb-2">
-              <a href={`/blog/${post.slug}`} class="hover:text-caramel transition">
-                {post.data.title}
-              </a>
-            </h3>
-            <p class="text-gray-600 mb-4">
-              {post.data.description}
-            </p>
-            <a 
-              href={`/blog/${post.slug}`}
-              class="text-caramel font-semibold hover:text-espresso-brown"
-            >
-              Read More →
-            </a>
+          <article class="bg-primary p-8 border-b border-gray-100">
+            <div class="max-w-3xl">
+              <h3 class="text-xl font-semibold text-text mb-3">
+                <a href={`/blog/${post.slug}`} class="hover:text-accent">
+                  {post.data.title}
+                </a>
+              </h3>
+              <p class="text-gray-600 mb-4 leading-relaxed">
+                {post.data.description}
+              </p>
+              <div class="flex items-center gap-4 text-sm text-gray-500">
+                <time>
+                  {new Date(post.data.pubDate).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </time>
+                <a href={`/blog/${post.slug}`} class="text-accent">
+                  Continue reading
+                </a>
+              </div>
+            </div>
           </article>
         ))}
       </div>
@@ -122,168 +139,3 @@ const recentPosts = blogPosts
 
   <Footer />
 </BaseLayout>
-
-<style>
-  .hero-scroll-container {
-    height: 200vh; /* Double viewport height for scroll effect */
-    position: relative;
-  }
-
-  .hero-section {
-    height: 100vh;
-    position: sticky;
-    top: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  .hero-background-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('/images/Hero-Image.webp');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0;
-    transform: scale(1.1);
-    animation: imageZoomIn 1.5s ease-out 0.2s forwards;
-  }
-
-  .hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    animation: overlayFadeIn 1s ease-out 0.8s forwards;
-  }
-
-  .hero-content-wrapper {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    position: relative;
-    z-index: 10;
-    opacity: 0;
-    transform: translateY(50px);
-    animation: fadeInUp 1s ease-out 1s forwards;
-  }
-
-  .hero-title-section {
-    z-index: 10;
-  }
-
-  .hero-title {
-    font-size: 2.5rem;
-    font-weight: 600;
-    color: white;
-    margin-bottom: 1rem;
-    line-height: 1.2;
-  }
-
-  .hero-title-large {
-    display: block;
-    font-size: 4rem;
-    font-weight: 800;
-    margin-top: 0.5rem;
-    background: linear-gradient(135deg, #D4A574 0%, #C67C4E 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1;
-  }
-
-  .hero-subtitle {
-    font-size: 1.25rem;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 2rem;
-    line-height: 1.6;
-  }
-
-  .hero-buttons {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  /* Animation keyframes */
-  @keyframes imageZoomIn {
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  @keyframes overlayFadeIn {
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes fadeInUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Scroll-triggered animations */
-  @media (prefers-reduced-motion: no-preference) {
-    .hero-background-image {
-      animation-play-state: running;
-    }
-  }
-
-  /* Mobile responsiveness */
-  @media (max-width: 768px) {
-    .hero-scroll-container {
-      height: 150vh;
-    }
-
-    .hero-content-wrapper {
-      text-align: center;
-      padding: 0 1rem;
-    }
-
-    .hero-title {
-      font-size: 2rem;
-    }
-
-    .hero-title-large {
-      font-size: 2.5rem;
-    }
-
-    .hero-subtitle {
-      font-size: 1.1rem;
-    }
-
-    .hero-buttons {
-      justify-content: center;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .hero-background-image {
-      background-position: center right;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .hero-title-large {
-      font-size: 2rem;
-    }
-    
-    .hero-buttons a {
-      width: 100%;
-      text-align: center;
-    }
-  }
-</style>

@@ -21,9 +21,25 @@ Home Espresso Hub is an affiliate niche site for home espresso machine reviews a
 - `src/components/` - Reusable components (Header, Footer, ProductCard, etc.)
 - `src/pages/` - Static pages and dynamic routes
 
-### Styling
-- Coffee-themed color palette (espresso-dark, caramel, latte-tan, cream)
-- Custom Tailwind components in `src/styles/global.css`
+### Design Philosophy
+**Editorial-First Approach**: Following $100M+ affiliate site standards with clean, trust-focused design that resembles editorial publications rather than sales pages.
+
+### Styling Guidelines
+- **Minimalist Color Palette** (2-3 colors maximum):
+  - Primary: Pure white (#FFFFFF) - dominant background (80%+ of page)
+  - Text: Deep charcoal (#2C2C2C) - primary text color
+  - Accent: Single brand color for links/CTAs only
+- **Typography**: Sans-serif fonts with generous white space and minimal weight variations
+- **Layout Principles**:
+  - Generous white space - content must breathe
+  - Uncluttered, news-site aesthetic
+  - Content-first, not sales-first approach
+  - Professional, trustworthy visual hierarchy
+- **Component Design**:
+  - White backgrounds dominate
+  - Minimal shadows, gradients, or colored sections
+  - Editorial-style cards and layouts
+  - Subtle, trust-based CTAs over aggressive sales language
 - Responsive design with mobile-first approach
 
 ## Development Commands
@@ -63,13 +79,27 @@ All content follows strict TypeScript schemas defined in `src/content/config.ts`
 
 ## Key Features
 
+- Editorial-first design following $100M+ affiliate site standards
+- Trust-focused, news-publication aesthetic
+- Minimalist color palette and generous white space
+- Content-driven approach over sales-focused design
 - Automatic sitemap generation
 - RSS feed at `/rss.xml`
 - SEO-optimized with meta tags and Open Graph
 - Mobile-responsive design
-- Affiliate link management
+- Subtle affiliate link management
 - Table of contents generation
 - Related articles system
+
+## Implementation Priorities
+
+When working on this codebase, prioritize:
+
+1. **Editorial Aesthetic**: Ensure all changes maintain news-site professionalism
+2. **White Space**: Never compromise on generous spacing and clean layouts
+3. **Trust Over Sales**: Content and expertise first, monetization second
+4. **Simplicity**: Remove rather than add visual elements
+5. **Performance**: Clean code reflects clean design philosophy
 
 ## Deployment
 
