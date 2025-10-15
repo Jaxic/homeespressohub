@@ -22,8 +22,8 @@ const blogCollection = defineCollection({
   }),
 });
 
-// Pillars collection schema
-const pillarsCollection = defineCollection({
+// Guides collection schema (formerly pillars)
+const guidesCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
@@ -74,6 +74,6 @@ const machinesCollection = defineCollection({
 
 export const collections = {
   blog: blogCollection,
-  pillars: pillarsCollection,
+  guides: guidesCollection,
   machines: machinesCollection,
 };

@@ -38,12 +38,12 @@ const machinesByCategory = categories.reduce((acc, category) => {
   description="Compare the best home espresso machines side by side. See detailed specifications, features, prices, and ratings to find your perfect match."
 >
   <!-- Hero Section -->
-  <section class="bg-gradient-to-r from-espresso-dark to-coffee-bean text-cream py-16">
+  <section class="bg-gradient-to-r from-espresso-dark to-warm-charcoal text-coffee-cream py-16">
     <div class="max-w-6xl mx-auto px-4 text-center">
       <h1 class="text-4xl md:text-6xl font-bold mb-6">
         {selectedMachines.length > 0 ? 'Machine Comparison' : 'Compare Espresso Machines'}
       </h1>
-      <p class="text-xl md:text-2xl text-cream/90 mb-8 max-w-3xl mx-auto">
+      <p class="text-xl md:text-2xl text-coffee-cream/90 mb-8 max-w-3xl mx-auto">
         {selectedMachines.length > 0 
           ? `Compare ${selectedMachines.length} espresso machines side by side to find the perfect match for your needs.`
           : 'Find the perfect espresso machine by comparing features, specifications, prices, and user ratings side by side.'
@@ -65,9 +65,9 @@ const machinesByCategory = categories.reduce((acc, category) => {
     ) : (
       <!-- No machines selected - Show selection interface -->
       <section class="mb-16">
-        <div class="bg-cream rounded-lg p-8 text-center mb-12">
-          <h2 class="text-2xl font-bold text-espresso mb-4">Select Machines to Compare</h2>
-          <p class="text-charcoal mb-6">
+        <div class="bg-coffee-cream rounded-lg p-8 text-center mb-12">
+          <h2 class="text-2xl font-bold text-espresso-dark mb-4">Select Machines to Compare</h2>
+          <p class="text-warm-charcoal mb-6">
             {selectedMachines.length === 1 
               ? 'You have 1 machine selected. Add more machines to start comparing.'
               : 'Choose 2-4 espresso machines to compare their features, specs, and prices side by side.'
@@ -75,7 +75,7 @@ const machinesByCategory = categories.reduce((acc, category) => {
           </p>
           <div id="selected-machines" class="flex flex-wrap justify-center gap-2 mb-6">
             {selectedMachines.map(machine => (
-              <span class="bg-latte px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
+              <span class="bg-latte-cream px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
                 {machine.data.name}
                 <button class="remove-machine text-red-600 hover:text-red-800" data-slug={machine.slug}>
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -86,7 +86,7 @@ const machinesByCategory = categories.reduce((acc, category) => {
             ))}
           </div>
           {selectedMachines.length >= 2 && (
-            <button id="compare-selected" class="bg-espresso hover:bg-charcoal text-cream px-6 py-3 rounded-lg font-semibold transition-colors">
+            <button id="compare-selected" class="bg-espresso-dark hover:bg-warm-charcoal text-coffee-cream px-6 py-3 rounded-lg font-semibold transition-colors">
               Compare Selected Machines
             </button>
           )}
@@ -103,8 +103,8 @@ const machinesByCategory = categories.reduce((acc, category) => {
         
         <div class="grid gap-8">
           {/* Top Rated vs Mid-Range Comparison */}
-          <div class="bg-cream rounded-lg p-6">
-            <h3 class="text-xl font-bold text-espresso mb-4">Top Rated Machines</h3>
+          <div class="bg-coffee-cream rounded-lg p-6">
+            <h3 class="text-xl font-bold text-espresso-dark mb-4">Top Rated Machines</h3>
             <ComparisonTable 
               machines={popularMachines.slice(0, 3)} 
               title="Best Overall Performers"
@@ -115,8 +115,8 @@ const machinesByCategory = categories.reduce((acc, category) => {
           {/* Category Comparisons */}
           {Object.entries(machinesByCategory).map(([category, machines]) => (
             (machines as any[]).length >= 2 && (
-              <div class="bg-cream rounded-lg p-6">
-                <h3 class="text-xl font-bold text-espresso mb-4 capitalize">
+              <div class="bg-coffee-cream rounded-lg p-6">
+                <h3 class="text-xl font-bold text-espresso-dark mb-4 capitalize">
                   Best {category.replace('-', ' ')} Machines
                 </h3>
                 <ComparisonTable 
@@ -134,15 +134,15 @@ const machinesByCategory = categories.reduce((acc, category) => {
     <!-- Machine Selection Grid -->
     {selectedMachines.length <= 1 && (
       <section class="mb-16">
-        <h2 class="text-3xl font-bold text-espresso mb-8 text-center">
+        <h2 class="text-3xl font-bold text-espresso-dark mb-8 text-center">
           Add Machines to Compare
         </h2>
         
         <!-- Filter Options -->
-        <div class="bg-cream p-6 rounded-lg mb-8">
+        <div class="bg-coffee-cream p-6 rounded-lg mb-8">
           <div class="grid md:grid-cols-3 gap-4">
             <div>
-              <label for="category-filter" class="block text-sm font-semibold text-espresso mb-2">
+              <label for="category-filter" class="block text-sm font-semibold text-espresso-dark mb-2">
                 Category
               </label>
               <select id="category-filter" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-caramel focus:border-transparent">
@@ -156,7 +156,7 @@ const machinesByCategory = categories.reduce((acc, category) => {
             </div>
             
             <div>
-              <label for="price-filter" class="block text-sm font-semibold text-espresso mb-2">
+              <label for="price-filter" class="block text-sm font-semibold text-espresso-dark mb-2">
                 Price Range
               </label>
               <select id="price-filter" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-caramel focus:border-transparent">
@@ -169,7 +169,7 @@ const machinesByCategory = categories.reduce((acc, category) => {
             </div>
             
             <div>
-              <label for="rating-filter" class="block text-sm font-semibold text-espresso mb-2">
+              <label for="rating-filter" class="block text-sm font-semibold text-espresso-dark mb-2">
                 Min Rating
               </label>
               <select id="rating-filter" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-caramel focus:border-transparent">
@@ -217,57 +217,57 @@ const machinesByCategory = categories.reduce((acc, category) => {
     )}
 
     <!-- Comparison Tips -->
-    <section class="bg-gradient-to-r from-latte-tan to-cream p-8 rounded-lg">
+    <section class="bg-gradient-to-r from-latte-cream to-coffee-cream p-8 rounded-lg">
       <h2 class="text-2xl font-bold text-espresso mb-6 text-center">
         How to Choose the Right Espresso Machine
       </h2>
       
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="text-center">
-          <div class="bg-caramel text-espresso w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div class="bg-caramel text-espresso-dark w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
             </svg>
           </div>
-          <h3 class="font-bold text-espresso mb-2">Budget</h3>
-          <p class="text-sm text-charcoal">Compare prices and find the best value for your budget range.</p>
+          <h3 class="font-bold text-espresso-dark mb-2">Budget</h3>
+          <p class="text-sm text-warm-charcoal">Compare prices and find the best value for your budget range.</p>
         </div>
         
         <div class="text-center">
-          <div class="bg-caramel text-espresso w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div class="bg-caramel text-espresso-dark w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
-          <h3 class="font-bold text-espresso mb-2">Features</h3>
-          <p class="text-sm text-charcoal">Look for features that match your brewing style and preferences.</p>
+          <h3 class="font-bold text-espresso-dark mb-2">Features</h3>
+          <p class="text-sm text-warm-charcoal">Look for features that match your brewing style and preferences.</p>
         </div>
         
         <div class="text-center">
-          <div class="bg-caramel text-espresso w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div class="bg-caramel text-espresso-dark w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <h3 class="font-bold text-espresso mb-2">Quality</h3>
-          <p class="text-sm text-charcoal">Check build quality, materials, and user ratings for reliability.</p>
+          <h3 class="font-bold text-espresso-dark mb-2">Quality</h3>
+          <p class="text-sm text-warm-charcoal">Check build quality, materials, and user ratings for reliability.</p>
         </div>
         
         <div class="text-center">
-          <div class="bg-caramel text-espresso w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div class="bg-caramel text-espresso-dark w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
             </svg>
           </div>
-          <h3 class="font-bold text-espresso mb-2">Ease of Use</h3>
-          <p class="text-sm text-charcoal">Consider automation level and learning curve for your skill level.</p>
+          <h3 class="font-bold text-espresso-dark mb-2">Ease of Use</h3>
+          <p class="text-sm text-warm-charcoal">Consider automation level and learning curve for your skill level.</p>
         </div>
       </div>
       
       <div class="text-center mt-8">
         <a 
-          href="/guide/complete-home-espresso-guide"
-          class="bg-espresso hover:bg-charcoal text-cream px-6 py-3 rounded-lg font-semibold transition-colors"
+          href="/guides/complete-home-espresso-guide"
+          class="bg-espresso-dark hover:bg-warm-charcoal text-coffee-cream px-6 py-3 rounded-lg font-semibold transition-colors"
         >
           Read Complete Buying Guide
         </a>
@@ -342,7 +342,7 @@ const machinesByCategory = categories.reduce((acc, category) => {
             
             // Show notification
             const notification = document.createElement('div');
-            notification.className = 'fixed top-4 right-4 bg-caramel text-espresso px-4 py-2 rounded-lg shadow-lg z-50';
+            notification.className = 'fixed top-4 right-4 bg-caramel text-espresso-dark px-4 py-2 rounded-lg shadow-lg z-50';
             notification.textContent = `${machineName} added to comparison`;
             document.body.appendChild(notification);
             

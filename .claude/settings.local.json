@@ -20,7 +20,10 @@
       "Bash(npm run build:*)",
       "Bash(timeout 10s npm run dev)",
       "Bash(npm uninstall:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(rg:*)",
+      "Bash(grep:*)",
+      "Bash(mv:*)"
     ],
     "deny": []
   }

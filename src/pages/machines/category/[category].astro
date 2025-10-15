@@ -43,12 +43,12 @@ const bestForOptions = [...new Set(machines.map(machine => machine.data.bestFor)
   description={`Discover the best ${categoryName} espresso machines for your home. Expert reviews, comparisons, and buying guides for ${categoryName} coffee makers.`}
 >
   <!-- Hero Section -->
-  <section class="bg-gradient-to-r from-espresso-dark to-coffee-bean text-cream py-16">
+  <section class="bg-gradient-to-r from-espresso-dark to-warm-charcoal text-coffee-cream py-16">
     <div class="max-w-6xl mx-auto px-4 text-center">
       <h1 class="text-4xl md:text-6xl font-bold mb-6">
         Best {categoryNameCapitalized} Espresso Machines
       </h1>
-      <p class="text-xl md:text-2xl text-cream/90 mb-8 max-w-3xl mx-auto">
+      <p class="text-xl md:text-2xl text-coffee-cream/90 mb-8 max-w-3xl mx-auto">
         {category === 'semi-automatic' ? 'Perfect balance of control and convenience for home baristas who want hands-on espresso brewing.' :
          category === 'automatic' ? 'One-touch convenience with programmable settings for consistent, quality espresso every time.' :
          category === 'super-automatic' ? 'Ultimate convenience with built-in grinders and milk frothers for café-quality drinks at the touch of a button.' :
@@ -56,10 +56,10 @@ const bestForOptions = [...new Set(machines.map(machine => machine.data.bestFor)
          `Professional-grade ${categoryName} espresso machines for serious home coffee enthusiasts.`}
       </p>
       <div class="flex flex-wrap justify-center gap-4">
-        <a href="#featured" class="bg-caramel hover:bg-caramel/90 text-espresso px-6 py-3 rounded-lg font-semibold transition-colors">
+        <a href="#featured" class="bg-caramel hover:bg-caramel/90 text-espresso-dark px-6 py-3 rounded-lg font-semibold transition-colors">
           View Top Picks
         </a>
-        <a href="#comparison" class="border-2 border-cream hover:bg-cream hover:text-espresso text-cream px-6 py-3 rounded-lg font-semibold transition-colors">
+        <a href="#comparison" class="border-2 border-coffee-cream hover:bg-coffee-cream hover:text-espresso-dark text-coffee-cream px-6 py-3 rounded-lg font-semibold transition-colors">
           Compare Machines
         </a>
       </div>
@@ -70,35 +70,35 @@ const bestForOptions = [...new Set(machines.map(machine => machine.data.bestFor)
     <!-- Category Stats -->
     <section class="mb-12">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-latte p-6 rounded-lg text-center">
-          <div class="text-3xl font-bold text-espresso">{machines.length}</div>
-          <div class="text-charcoal">Machines</div>
+        <div class="bg-latte-cream p-6 rounded-lg text-center">
+          <div class="text-3xl font-bold text-espresso-dark">{machines.length}</div>
+          <div class="text-warm-charcoal">Machines</div>
         </div>
-        <div class="bg-latte p-6 rounded-lg text-center">
-          <div class="text-3xl font-bold text-espresso">{featuredMachines.length}</div>
-          <div class="text-charcoal">Featured</div>
+        <div class="bg-latte-cream p-6 rounded-lg text-center">
+          <div class="text-3xl font-bold text-espresso-dark">{featuredMachines.length}</div>
+          <div class="text-warm-charcoal">Featured</div>
         </div>
-        <div class="bg-latte p-6 rounded-lg text-center">
-          <div class="text-3xl font-bold text-espresso">{priceRanges.length}</div>
-          <div class="text-charcoal">Price Ranges</div>
+        <div class="bg-latte-cream p-6 rounded-lg text-center">
+          <div class="text-3xl font-bold text-espresso-dark">{priceRanges.length}</div>
+          <div class="text-warm-charcoal">Price Ranges</div>
         </div>
-        <div class="bg-latte p-6 rounded-lg text-center">
-          <div class="text-3xl font-bold text-espresso">
+        <div class="bg-latte-cream p-6 rounded-lg text-center">
+          <div class="text-3xl font-bold text-espresso-dark">
             {Math.round(machines.reduce((sum, m) => sum + m.data.rating, 0) / machines.length * 10) / 10}
           </div>
-          <div class="text-charcoal">Avg Rating</div>
+          <div class="text-warm-charcoal">Avg Rating</div>
         </div>
       </div>
     </section>
 
     <!-- Advanced Filters -->
     <section class="mb-12">
-      <div class="bg-cream p-6 rounded-lg">
-        <h2 class="text-2xl font-bold text-espresso mb-6">Filter {categoryNameCapitalized} Machines</h2>
+      <div class="bg-coffee-cream p-6 rounded-lg">
+        <h2 class="text-2xl font-bold text-espresso-dark mb-6">Filter {categoryNameCapitalized} Machines</h2>
         <div class="grid md:grid-cols-4 gap-4">
           <!-- Price Range Filter -->
           <div>
-            <label for="price-filter" class="block text-sm font-semibold text-espresso mb-2">
+            <label for="price-filter" class="block text-sm font-semibold text-espresso-dark mb-2">
               Price Range
             </label>
             <select id="price-filter" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-caramel focus:border-transparent">
@@ -113,7 +113,7 @@ const bestForOptions = [...new Set(machines.map(machine => machine.data.bestFor)
 
           <!-- Best For Filter -->
           <div>
-            <label for="skill-filter" class="block text-sm font-semibold text-espresso mb-2">
+            <label for="skill-filter" class="block text-sm font-semibold text-espresso-dark mb-2">
               Best For
             </label>
             <select id="skill-filter" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-caramel focus:border-transparent">
@@ -128,7 +128,7 @@ const bestForOptions = [...new Set(machines.map(machine => machine.data.bestFor)
 
           <!-- Rating Filter -->
           <div>
-            <label for="rating-filter" class="block text-sm font-semibold text-espresso mb-2">
+            <label for="rating-filter" class="block text-sm font-semibold text-espresso-dark mb-2">
               Min Rating
             </label>
             <select id="rating-filter" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-caramel focus:border-transparent">
@@ -142,7 +142,7 @@ const bestForOptions = [...new Set(machines.map(machine => machine.data.bestFor)
 
           <!-- Sort Options -->
           <div>
-            <label for="sort-filter" class="block text-sm font-semibold text-espresso mb-2">
+            <label for="sort-filter" class="block text-sm font-semibold text-espresso-dark mb-2">
               Sort By
             </label>
             <select id="sort-filter" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-caramel focus:border-transparent">
@@ -157,7 +157,7 @@ const bestForOptions = [...new Set(machines.map(machine => machine.data.bestFor)
         
         <!-- Clear Filters Button -->
         <div class="mt-4">
-          <button id="clear-filters" class="text-caramel hover:text-espresso font-medium transition-colors">
+          <button id="clear-filters" class="text-caramel hover:text-espresso-dark font-medium transition-colors">
             Clear All Filters
           </button>
         </div>
@@ -167,7 +167,7 @@ const bestForOptions = [...new Set(machines.map(machine => machine.data.bestFor)
     <!-- Featured Section -->
     {featuredMachines.length > 0 && (
       <section id="featured" class="mb-16">
-        <h2 class="text-3xl font-bold text-espresso mb-8 text-center">
+        <h2 class="text-3xl font-bold text-espresso-dark mb-8 text-center">
           🏆 Top {categoryNameCapitalized} Picks
         </h2>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -206,15 +206,15 @@ const bestForOptions = [...new Set(machines.map(machine => machine.data.bestFor)
     <!-- All Machines Grid -->
     <section id="all-machines">
       <div class="flex justify-between items-center mb-8">
-        <h2 class="text-3xl font-bold text-espresso">
+        <h2 class="text-3xl font-bold text-espresso-dark">
           All {categoryNameCapitalized} Machines
         </h2>
         <div class="flex items-center gap-4">
-          <span class="text-charcoal">
+          <span class="text-warm-charcoal">
             Showing <span id="results-count">{machines.length}</span> machines
           </span>
           <div class="flex gap-2">
-            <button id="grid-view" class="p-2 bg-espresso text-cream rounded hover:bg-charcoal transition-colors">
+            <button id="grid-view" class="p-2 bg-espresso-dark text-coffee-cream rounded hover:bg-warm-charcoal transition-colors">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 8a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H4a1 1 0 01-1-1v-4zm8-8a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V4zm0 8a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" clip-rule="evenodd" />
               </svg>
@@ -261,23 +261,23 @@ const bestForOptions = [...new Set(machines.map(machine => machine.data.bestFor)
     </section>
 
     <!-- CTA Section -->
-    <section class="mt-16 bg-gradient-to-r from-caramel to-latte p-8 rounded-lg text-center">
-      <h3 class="text-2xl font-bold text-espresso mb-4">
+    <section class="mt-16 bg-gradient-to-r from-caramel to-latte-cream p-8 rounded-lg text-center">
+      <h3 class="text-2xl font-bold text-espresso-dark mb-4">
         Ready to Choose Your Perfect {categoryNameCapitalized} Machine?
       </h3>
-      <p class="text-charcoal mb-6 max-w-2xl mx-auto">
+      <p class="text-warm-charcoal mb-6 max-w-2xl mx-auto">
         Still unsure? Check out our comprehensive buying guide or compare different categories to find your ideal espresso machine.
       </p>
       <div class="flex flex-wrap justify-center gap-4">
         <a 
-          href="/guide/complete-home-espresso-guide"
-          class="bg-espresso hover:bg-charcoal text-cream px-6 py-3 rounded-lg font-semibold transition-colors"
+          href="/guides/complete-home-espresso-guide"
+          class="bg-espresso-dark hover:bg-warm-charcoal text-coffee-cream px-6 py-3 rounded-lg font-semibold transition-colors"
         >
           Read Buying Guide
         </a>
         <a 
           href="/machines"
-          class="border-2 border-espresso-dark hover:bg-espresso hover:text-cream text-espresso px-6 py-3 rounded-lg font-semibold transition-colors"
+          class="border-2 border-espresso-dark hover:bg-espresso-dark hover:text-coffee-cream text-espresso-dark px-6 py-3 rounded-lg font-semibold transition-colors">
         >
           View All Categories
         </a>
@@ -367,17 +367,17 @@ const bestForOptions = [...new Set(machines.map(machine => machine.data.bestFor)
         if (viewType === 'list') {
           machinesGrid?.classList.remove('grid', 'md:grid-cols-2', 'lg:grid-cols-3');
           machinesGrid?.classList.add('space-y-4');
-          gridViewBtn?.classList.remove('bg-espresso', 'text-cream');
+          gridViewBtn?.classList.remove('bg-espresso-dark', 'text-coffee-cream');
           gridViewBtn?.classList.add('bg-gray-200', 'text-gray-600');
           listViewBtn?.classList.remove('bg-gray-200', 'text-gray-600');
-          listViewBtn?.classList.add('bg-espresso', 'text-cream');
+          listViewBtn?.classList.add('bg-espresso-dark', 'text-coffee-cream');
         } else {
           machinesGrid?.classList.add('grid', 'md:grid-cols-2', 'lg:grid-cols-3');
           machinesGrid?.classList.remove('space-y-4');
-          listViewBtn?.classList.remove('bg-espresso', 'text-cream');
+          listViewBtn?.classList.remove('bg-espresso-dark', 'text-coffee-cream');
           listViewBtn?.classList.add('bg-gray-200', 'text-gray-600');
           gridViewBtn?.classList.remove('bg-gray-200', 'text-gray-600');
-          gridViewBtn?.classList.add('bg-espresso', 'text-cream');
+          gridViewBtn?.classList.add('bg-espresso-dark', 'text-coffee-cream');
         }
       }
 

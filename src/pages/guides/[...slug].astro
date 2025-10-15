@@ -3,8 +3,8 @@ import { getCollection } from 'astro:content';
 import PillarLayout from '../../layouts/PillarLayout.astro';
 
 export async function getStaticPaths() {
-  const pillarEntries = await getCollection('pillars');
-  return pillarEntries.map(entry => ({
+  const guideEntries = await getCollection('guides');
+  return guideEntries.map(entry => ({
     params: { slug: entry.slug },
     props: { entry },
   }));
