@@ -1,12 +1,37 @@
 ---
 const navItems = [
   { name: 'Home', href: '/' },
-  { name: 'Espresso Machines', href: '/espresso-machines' },
-  { name: 'Complete Guide', href: '/guides/complete-home-espresso-guide' },
-  { name: 'Reviews', href: '/blog' },
-  { name: 'Compare', href: '/compare' },
-  { name: 'Resources', href: '/resources' },
-  { name: 'About', href: '/about' },
+  {
+    name: 'Machines',
+    children: [
+      { name: 'All Reviews', href: '/blog?category=reviews' },
+      { name: 'Best Under $500', href: '/blog/best-espresso-machine-under-500' },
+      { name: 'Best for Beginners', href: '/blog/best-espresso-machine-for-beginners' },
+      { name: 'Super-Automatic', href: '/espresso-machines/category/super-automatic/' },
+      { name: 'Semi-Automatic', href: '/espresso-machines/category/semi-automatic/' },
+      { name: 'Compare Machines', href: '/compare' },
+    ],
+  },
+  {
+    name: 'Guides',
+    children: [
+      { name: 'Complete Buying Guide', href: '/guides/complete-home-espresso-guide' },
+      { name: "Beginner's Guide", href: '/blog/how-to-make-espresso-at-home' },
+      { name: 'Maintenance & Care', href: '/guides/maintenance-and-care' },
+      { name: 'Brewing Tips', href: '/blog?category=how-to' },
+      // FAQs intentionally skipped per request
+    ],
+  },
+  {
+    name: 'About',
+    children: [
+      { name: 'About Us', href: '/about' },
+      { name: 'Our Methodology', href: '/methodology' },
+      { name: 'Contact', href: '/contact' },
+      { name: 'Resources', href: '/resources' },
+      { name: 'Privacy Policy', href: '/privacy' },
+    ],
+  },
 ];
 ---
 
@@ -23,12 +48,30 @@ const navItems = [
       <!-- Desktop Navigation -->
       <div class="hidden md:flex items-center space-x-8">
         {navItems.map(item => (
-          <a 
-            href={item.href}
-            class="text-white hover:text-latte-tan transition-colors no-underline font-semibold"
-          >
-            {item.name}
-          </a>
+          item.children ? (
+            <div class="relative group">
+              <button class="text-white hover:text-latte-tan transition-colors no-underline font-semibold flex items-center gap-1" aria-haspopup="true" aria-expanded="false">
+                {item.name}
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z"/></svg>
+              </button>
+              <div class="absolute left-0 mt-2 w-64 rounded-lg bg-espresso shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                <div class="py-2">
+                  {item.children.map(child => (
+                    <a href={child.href} class="block px-4 py-2 text-white hover:text-latte-tan transition-colors no-underline">
+                      {child.name}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <a 
+              href={item.href}
+              class="text-white hover:text-latte-tan transition-colors no-underline font-semibold"
+            >
+              {item.name}
+            </a>
+          )
         ))}
       </div>
 
@@ -46,13 +89,34 @@ const navItems = [
 
     <!-- Mobile Navigation -->
     <div id="mobile-menu" class="hidden md:hidden pb-4">
-      {navItems.map(item => (
-        <a 
-          href={item.href}
-          class="block py-2 text-white hover:text-latte-tan transition-colors no-underline"
-        >
-          {item.name}
-        </a>
+      {navItems.map((item, index) => (
+        item.children ? (
+          <div class="border-t border-espresso-brown">
+            <button 
+              class="w-full text-left py-3 flex items-center justify-between text-white hover:text-latte-tan font-semibold"
+              data-accordion-button
+              aria-controls={`mobile-submenu-${index}`}
+              aria-expanded="false"
+            >
+              <span>{item.name}</span>
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z"/></svg>
+            </button>
+            <div id={`mobile-submenu-${index}`} class="hidden pl-4">
+              {item.children.map(child => (
+                <a href={child.href} class="block py-2 text-white/90 hover:text-latte-tan transition-colors no-underline">
+                  {child.name}
+                </a>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <a 
+            href={item.href}
+            class="block py-3 text-white hover:text-latte-tan transition-colors no-underline font-semibold"
+          >
+            {item.name}
+          </a>
+        )
       ))}
     </div>
   </nav>
@@ -64,5 +128,17 @@ const navItems = [
   
   button?.addEventListener('click', () => {
     menu?.classList.toggle('hidden');
+  });
+
+  // Mobile accordion toggles
+  const accordionButtons = document.querySelectorAll('[data-accordion-button]');
+  accordionButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const controls = btn.getAttribute('aria-controls');
+      const panel = controls ? document.getElementById(controls) : null;
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', (!expanded).toString());
+      panel?.classList.toggle('hidden');
+    });
   });
 </script>

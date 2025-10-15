@@ -178,3 +178,66 @@ The project framework is complete and ready for development server testing. All 
 - All framework files are in place
 - Sample content provides good foundation for testing
 - Deployment configuration will be needed after testing phase
+
+## Navigation Revamp Planning (Planner)
+
+### Background and Motivation (Navigation)
+We want to adopt a three-dropdown top navigation (Machines, Guides, About) to improve discoverability of reviews, categories, and key informational pages.
+
+### Proposed Menu → Route Inventory
+- Machines ▾
+  - All Reviews → `/blog?category=reviews` (exists pattern; list page supports category query)
+  - Best Under $500 → `/blog/best-espresso-machine-under-500` (exists)
+  - Best for Beginners → `/blog/best-espresso-machine-for-beginners` (exists)
+  - Super-Automatic → `/espresso-machines/category/super-automatic/` (exists)
+  - Semi-Automatic → `/espresso-machines/category/semi-automatic/` (exists)
+  - Compare Machines → `/compare` (exists)
+
+- Guides ▾
+  - Complete Buying Guide → `/guides/complete-home-espresso-guide` (exists)
+  - Beginner's Guide → `/blog/how-to-make-espresso-at-home` (exists as a how-to)
+  - Maintenance & Care → MISSING (needs destination; suggest `/blog?category=maintenance` or a new guide)
+  - Brewing Tips → `/blog?category=how-to` (exists category pattern)
+  - FAQs → MISSING (new page `/faq` or section on `/resources`)
+
+- About ▾
+  - About Us → `/about` (exists)
+  - Our Methodology → MISSING (new page `/methodology` or `/about#methodology` section)
+  - Contact → MISSING (new page `/contact`)
+  - Resources → `/resources` (exists)
+  - Privacy Policy → `/privacy` (exists)
+
+### Missing Pages/Sections (to create)
+1) Maintenance & Care: either a category landing or standalone guide
+2) FAQs page: site-wide FAQs
+3) Our Methodology: explain reviews/testing approach
+4) Contact page: basic contact info/form
+
+### Decisions Needed
+- Maintenance & Care: category landing vs single guide?
+- FAQs: dedicated `/faq` page vs anchor section under `/resources`?
+- Methodology: separate page vs section within `/about`?
+- Contact: simple static page vs form (what destination/email)?
+
+### Success Criteria
+- Desktop dropdowns render correctly with hover/focus, keyboard accessible.
+- Mobile menu supports collapsible submenus for each dropdown.
+- All menu links resolve to existing or newly created pages without 404.
+- New pages use existing layouts and pass basic SEO checks (title/description).
+
+### Next Steps (Executor-ready, one-at-a-time)
+1) Implement dropdown structure in `src/components/Header.astro` (desktop + mobile) using existing Tailwind.
+2) Create placeholder pages for MISSING items with proper layouts:
+   - `/faq`
+   - `/methodology` (or section on `/about`)
+   - `/contact`
+   - Maintenance & Care destination (finalize path based on decision)
+3) Wire menu items to these routes; add tests/checklist to verify navigation.
+4) Accessibility pass for focus order and escape to close menus on blur.
+
+### Current Status / Progress Tracking (Navigation)
+- Planning complete for inventory; awaiting decisions on three content placement questions before implementing.
+- Implemented: `src/pages/methodology.astro` → `/methodology` (content added)
+- Implemented: Maintenance guide placeholder `src/content/guides/maintenance-and-care.md`
+- Implemented: Contact page template `src/pages/contact.astro` (static form)
+- Decision recorded: Skip FAQs in the menu for now
